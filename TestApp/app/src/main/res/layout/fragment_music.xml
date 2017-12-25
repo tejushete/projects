@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="com.example.teju.testapp.MusicFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rlTitleView"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Music Player"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvSong_list"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/rlTitleView"
+        android:layout_above="@+id/rlProgressBarView"
+        android:layout_height="wrap_content" >
+    </ListView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/rlProgressBarView"
+        android:background="#c703f9"
+        android:layout_height="90dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="40dp"
+            android:id="@+id/vwMusicButtons">
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ivPlay"
+                    android:visibility="visible"
+                    android:layout_centerInParent="true"
+                    android:clickable="true"
+                    android:src="@drawable/play"/>
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/ivPause"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:src="@drawable/pause"/>
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:01"
+            android:id="@+id/tvCurrentTime"
+            android:layout_below="@id/vwMusicButtons"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"
+            android:textColor="#000000"/>
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_toRightOf="@id/tvCurrentTime"
+            android:layout_toLeftOf="@id/tvTotalTime"
+            android:layout_below="@id/vwMusicButtons"
+            android:progress="80"
+            android:paddingLeft="0dp"
+            android:max="100"
+            android:layout_marginLeft="0dp"
+            android:thumbOffset="0dp"
+            android:layout_marginTop="5dp"
+            android:progressDrawable="@drawable/seek_bar_style"
+            android:thumb="@null"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:01"
+            android:id="@+id/tvTotalTime"
+            android:layout_below="@id/vwMusicButtons"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+
+
+            android:textColor="#000000"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:id="@+id/tvSerial"
+        android:text="1) "
+        android:textSize="20dp"
+        android:textColor="#000099"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/tvSerial"
+        android:layout_height="40dp"
+        android:layout_marginLeft="5dp"
+        android:maxWidth="200dp"
+        android:textColor="#009900"
+        android:text="Product Name"
+        android:textSize="20dp"
+        android:id="@+id/tvProductName"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/mobile"
+        android:layout_below="@id/tvProductName"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/ivProductPhoto"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:maxWidth="200dp"
+        android:text="Code: 1"
+        android:textSize="18dp"
+        android:singleLine="true"
+        android:layout_marginTop="15dp"
+        android:id="@+id/tvProductCodeReviewEdit"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Price:"
+        android:textSize="20dp"
+        android:layout_toRightOf="@id/ivProductPhoto"
+        android:textStyle="bold"
+        android:id="@+id/tvProductPriceKey"
+        android:layout_below="@id/tvProductName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="34523.42"
+        android:textColor="#7b63b4"
+        android:layout_toRightOf="@id/tvProductPriceKey"
+        android:layout_below="@id/tvProductName"
+        android:layout_marginLeft="5dp"
+        android:textSize="20dp"
+        android:id="@+id/tvProductPriceValue"/>
+
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Quantity:"
+        android:layout_toRightOf="@id/ivProductPhoto"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/tvQuantityPriceKey"
+        android:layout_below="@id/tvProductPriceKey"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="322"
+        android:textColor="#7b63b4"
+        android:layout_toRightOf="@id/tvQuantityPriceKey"
+        android:layout_below="@id/tvProductPriceKey"
+        android:layout_marginLeft="5dp"
+        android:textSize="20dp"
+        android:id="@+id/tvQuantityPriceVal"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tvQuantityPriceVal"
+        android:src="@drawable/change"
+        android:id="@+id/ivQuantityChange"
+        android:layout_below="@id/tvProductPriceKey"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#b1b1b1"
+        android:layout_below="@id/ivQuantityChange"></View>
+
+</RelativeLayout>

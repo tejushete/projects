@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/first_page_bg"
+    tools:context=".Search">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rlSearchMainView"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rlSearchActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#22aa22">
+
+            <ImageView
+                android:id="@+id/ivBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:src="@drawable/back" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:text="Search"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="400dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/rlSearchActionBar"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search" />
+
+        <LinearLayout
+            android:id="@+id/llCbHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/searchView"
+            android:layout_centerHorizontal="true">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cbSearchSupplier"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="Supplier  "
+                    android:textColor="#ffffff"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cbSearchProducts"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:checked="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="Products  "
+                    android:textColor="#ffffff"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/lvSearchProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/llCbHolder"
+            android:layout_marginTop="20dp"></ListView>
+
+        <ListView
+            android:id="@+id/lvSearchSupplier"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/llCbHolder"
+            android:layout_marginTop="20dp"></ListView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlSearchProgressBarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="#00ffffff"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/custom_progress_bar" />
+    </RelativeLayout>
+
+</FrameLayout>

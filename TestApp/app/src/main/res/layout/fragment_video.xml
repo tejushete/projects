@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="com.example.teju.testapp.VideoFragment">
+
+    <ListView
+        android:id="@+id/llVideo_list"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/rlTitleView"
+        android:layout_above="@+id/rlProgressBarView"
+        android:layout_height="wrap_content" >
+    </ListView>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTmp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text=" -> "
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/tvSubCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/tvTmp"
+        android:maxWidth="300dp"
+        android:minWidth="40dp"
+        android:text="Sub Category"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/ivEditSubCategory"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/tvSubCategory"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/edit" />
+
+    <ImageView
+        android:id="@+id/ivRemoveSubCategory"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/ivEditSubCategory"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/remove" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/tvSubCategory"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:background="#000099"></View>
+
+</RelativeLayout>

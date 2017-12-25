@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">PurchaseOrder</string>
+    <string name="title_activity_product_activity">product_activity</string>
+    <string-array name="test_array_name">
+        <item>Array Item One</item>
+        <item>Array Item Two</item>
+        <item>Array Item Three</item>
+    </string-array>
+</resources>
