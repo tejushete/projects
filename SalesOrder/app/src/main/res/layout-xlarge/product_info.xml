@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="#11aa11"
+        android:text="Name: "
+        android:id="@+id/tvNameLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:singleLine="true"
+        android:layout_toRightOf="@id/tvNameLabel"
+        android:textColor="#ffffff"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:id="@+id/tvProductName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="#11aa11"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Description: "
+        android:layout_below="@id/tvNameLabel"
+        android:id="@+id/tvDescriptionLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:singleLine="true"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/tvDescriptionLabel"
+        android:textSize="22dp"
+        android:textColor="#ffffff"
+        android:layout_below="@id/tvNameLabel"
+        android:id="@+id/tvProductDescription"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Cost Price: "
+        android:textColor="#11aa11"
+        android:layout_below="@id/tvDescriptionLabel"
+        android:id="@+id/tvCostPriceLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvCostPriceLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:textColor="#ffffff"
+        android:layout_below="@id/tvDescriptionLabel"
+        android:id="@+id/tvProductCostPrice"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="#11aa11"
+        android:text="Category: "
+        android:layout_below="@id/tvCostPriceLabel"
+        android:id="@+id/tvCategoryLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvCategoryLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textColor="#ffffff"
+        android:textSize="22dp"
+        android:layout_below="@id/tvCostPriceLabel"
+        android:id="@+id/tvProductCategory"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textColor="#11aa11"
+        android:textStyle="bold"
+        android:text="Sub Category: "
+        android:layout_below="@id/tvCategoryLabel"
+        android:id="@+id/tvSubCategoryLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvSubCategoryLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:layout_below="@id/tvCategoryLabel"
+        android:id="@+id/tvProductSubCategory"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textColor="#11aa11"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Supplier: "
+        android:layout_below="@id/tvSubCategoryLabel"
+        android:id="@+id/tvSupplierLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvSupplierLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:layout_below="@id/tvSubCategoryLabel"
+        android:id="@+id/tvProductSupplier"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textColor="#11aa11"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Min Order: "
+        android:layout_below="@id/tvSupplierLabel"
+        android:id="@+id/tvMinOrderQLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvMinOrderQLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:layout_below="@id/tvSupplierLabel"
+        android:id="@+id/tvProductMinOrderQ"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textColor="#11aa11"
+        android:textStyle="bold"
+        android:text="Min Stock: "
+        android:layout_below="@id/tvMinOrderQLabel"
+        android:id="@+id/tvMinStockQLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvMinStockQLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textColor="#ffffff"
+        android:textSize="22dp"
+        android:layout_below="@id/tvMinOrderQLabel"
+        android:id="@+id/tvProductMinStockQ"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textColor="#11aa11"
+        android:textStyle="bold"
+        android:text="Sale Price: "
+        android:layout_below="@id/tvMinStockQLabel"
+        android:id="@+id/tvSalePriceLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvSalePriceLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:layout_below="@id/tvMinStockQLabel"
+        android:id="@+id/tvProductSalePrice"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="#119911"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="MRP: "
+        android:layout_below="@id/tvSalePriceLabel"
+        android:id="@+id/tvMRPLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvMRPLabel"
+        android:textColor="#ffffff"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:layout_below="@id/tvSalePriceLabel"
+        android:id="@+id/tvProductMRP"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="CLOSE"
+        android:background="#990000"
+        android:textColor="#ffffff"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:layout_below="@id/tvMRPLabel"
+        android:id="@+id/btnProductInfoClose"/>
+
+</RelativeLayout>

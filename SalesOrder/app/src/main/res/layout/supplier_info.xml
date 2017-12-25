@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="#11aa11"
+        android:text="Name: "
+        android:id="@+id/tvNameLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:singleLine="true"
+        android:layout_toRightOf="@id/tvNameLabel"
+        android:textColor="#ffffff"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:id="@+id/tvSupplierName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:textColor="#11aa11"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Address: "
+        android:layout_below="@id/tvNameLabel"
+        android:id="@+id/tvDescriptionLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:singleLine="true"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@id/tvDescriptionLabel"
+        android:textSize="22dp"
+        android:textColor="#ffffff"
+        android:layout_below="@id/tvNameLabel"
+        android:id="@+id/tvSupplierAddress"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:text="Telephone: "
+        android:textColor="#11aa11"
+        android:layout_below="@id/tvDescriptionLabel"
+        android:id="@+id/tvCostPriceLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvCostPriceLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:textColor="#ffffff"
+        android:layout_below="@id/tvDescriptionLabel"
+        android:id="@+id/tvSupplierTelephone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="#11aa11"
+        android:text="Mobile: "
+        android:layout_below="@id/tvCostPriceLabel"
+        android:id="@+id/tvCategoryLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvCategoryLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_margin="10dp"
+        android:textColor="#ffffff"
+        android:textSize="22dp"
+        android:layout_below="@id/tvCostPriceLabel"
+        android:id="@+id/tvSupplierMobile"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:textSize="30dp"
+        android:textColor="#11aa11"
+        android:textStyle="bold"
+        android:text="Email: "
+        android:layout_below="@id/tvCategoryLabel"
+        android:id="@+id/tvSubCategoryLabel"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/tvSubCategoryLabel"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:textColor="#ffffff"
+        android:layout_margin="10dp"
+        android:textSize="22dp"
+        android:layout_below="@id/tvCategoryLabel"
+        android:id="@+id/tvSupplierEmail"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="CLOSE"
+        android:background="#990000"
+        android:textColor="#ffffff"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:layout_below="@id/tvSupplierEmail"
+        android:id="@+id/btnSupplierInfoClose"/>
+
+</RelativeLayout>

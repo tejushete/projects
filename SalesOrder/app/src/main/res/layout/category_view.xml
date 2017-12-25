@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlMainCategoryView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:id="@+id/tvMainCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="6dp"
+            android:maxWidth="300dp"
+            android:singleLine="true"
+            android:text="Main Category"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivAddSubCategory"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/tvMainCategory"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/add_green" />
+
+        <ImageView
+            android:id="@+id/ivEditMainCategory"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/ivAddSubCategory"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/edit" />
+
+        <ImageView
+            android:id="@+id/ivRemoveMainCategory"
+            android:layout_width="50dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/ivEditMainCategory"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:src="@drawable/remove" />
+
+        <ImageView
+            android:id="@+id/ivShowSubCategoryView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
+            android:src="@drawable/down" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tvMainCategory"
+            android:background="#000000"></View>
+    </RelativeLayout>
+
+
+</RelativeLayout>

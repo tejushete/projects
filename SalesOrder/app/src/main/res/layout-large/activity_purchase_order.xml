@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/first_page_bg"
+    tools:context=".PurchaseOrderActivity">
+
+    <RelativeLayout
+        android:id="@+id/rlProductActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#22aa22">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:padding="10dp"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:text="Purchase Order"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlProductActionBar"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:id="@+id/tvSupplierCb"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Suppliers: "
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <CheckBox
+            android:id="@+id/cbSuppliersFilter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/tvSupplierCb"
+            android:checked="true" />
+
+        <Spinner
+            android:id="@+id/spSupplier"
+            style="@style/Platform.Widget.AppCompat.Spinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/cbSuppliersFilter"
+            android:popupBackground="#ffffff"></Spinner>
+
+        <TextView
+            android:id="@+id/tvCategoryCb"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvSupplierCb"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Category: "
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <CheckBox
+            android:id="@+id/cbCategoryFilter"
+            style="@style/Base.Widget.AppCompat.CompoundButton.CheckBox"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvSupplierCb"
+            android:layout_marginLeft="46dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/tvCategoryCb" />
+
+        <Spinner
+            android:id="@+id/spCategory"
+            style="@style/Platform.Widget.AppCompat.Spinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/cbSuppliersFilter"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/cbCategoryFilter"
+            android:popupBackground="#ffffff"
+            android:visibility="gone"></Spinner>
+
+        <TextView
+            android:id="@+id/tvSubCategoryCb"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvCategoryCb"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Sub Category: "
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+
+        <CheckBox
+            android:id="@+id/cbSubCategoryFilter"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvCategoryCb"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/tvSubCategoryCb"
+            android:visibility="gone" />
+
+        <Spinner
+            android:id="@+id/spSubCategory"
+            style="@style/Platform.Widget.AppCompat.Spinner"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/tvCategoryCb"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/cbSubCategoryFilter"
+            android:popupBackground="#ffffff"
+            android:visibility="gone"></Spinner>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lvProductListPurchaseOrder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rlFilter"
+        android:layout_marginTop="15dp"></ListView>
+
+    <FrameLayout
+        android:id="@+id/rlProductPreviewPurchaseOrder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="30dp"
+        android:background="#000000"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivCloseImagePreviewPurchaseOrder"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:src="@drawable/close" />
+
+            <TextView
+                android:id="@+id/tvDProductNameTag"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@id/ivCloseImagePreviewPurchaseOrder"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="25dp"
+                android:text="Product Name:"
+                android:textColor="#ffffff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvDProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@id/ivCloseImagePreviewPurchaseOrder"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tvDProductNameTag"
+                android:layout_marginTop="25dp"
+                android:text="Product ABCD"
+                android:textColor="#ffffff"
+                android:textSize="23dp" />
+
+            <TextView
+                android:id="@+id/tvDProductDescriptionTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDProductNameTag"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="25dp"
+                android:text="Product Description:"
+                android:textColor="#ffffff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDProductDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_below="@id/tvDProductNameTag"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:layout_toRightOf="@id/tvDProductDescriptionTag"
+                android:layout_marginTop="25dp"
+                android:text="Product is very good"
+                android:textColor="#ffffff"
+                android:textSize="23dp"/>
+
+            <TextView
+                android:id="@+id/tvStockAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDProductDescriptionTag"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="25dp"
+                android:text="Stock Available:"
+                android:textColor="#ffffff"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etStockAvailable"
+                android:layout_width="100dp"
+                android:textAlignment="center"
+                android:layout_height="60dp"
+                android:layout_below="@id/tvDProductDescriptionTag"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="100dp"
+                android:layout_toRightOf="@id/tvStockAvailable"
+                android:backgroundTint="@color/colorWhite"
+                android:focusable="true"
+                android:inputType="number"
+                android:padding="0dp"
+                android:textColor="#ffffff"
+                android:textSize="25dp" />
+
+            <ImageView
+                android:id="@+id/ivImagePreview"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tvStockAvailable"
+                android:scaleType="fitXY"
+                android:src="@drawable/mobile" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/ivProductInfo"
+            android:src="@drawable/info"
+            android:padding="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="130dp">
+
+            <Button
+                android:id="@+id/btnSaveImPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="#009900"
+                android:text="SAVE"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnCancelImPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="#990000"
+                android:text="CANCEL"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:padding="5dp"
+            android:id="@+id/ivNextProduct"
+            android:src="@drawable/next"
+            android:layout_gravity="end"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="190dp"/>
+
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:padding="5dp"
+            android:id="@+id/ivPrevProduct"
+            android:src="@drawable/prev"
+            android:layout_gravity="start"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="190dp"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

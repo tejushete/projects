@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="1) "
+        android:textColor="#000099"
+        android:textStyle="bold"
+        android:textSize="18dp"
+        android:id="@+id/tvSerial"></TextView>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:maxWidth="300dp"
+        android:layout_marginLeft="5dp"
+        android:text="Supplier XYZ"
+        android:textSize="18dp"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textColor="#008800"
+        android:layout_toRightOf="@id/tvSerial"
+        android:id="@+id/tvSupplierName"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/export"
+        android:id="@+id/ivSupplierPOExport"
+        android:padding="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/tvSupplierName" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/next_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#b1b1b1"
+        android:layout_below="@id/tvSupplierName"></View>
+
+</RelativeLayout>

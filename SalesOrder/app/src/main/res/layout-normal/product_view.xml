@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/rlMainProductView"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivProduct"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/loading"
+        android:background="#00000000" />
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/ivProduct"
+        android:maxWidth="300dp"
+        android:singleLine="true"
+        android:text="Product Name"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/tvProductDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvProductCode"
+        android:layout_toRightOf="@+id/ivProduct"
+        android:maxLines="2"
+        android:layout_marginTop="4dp"
+        android:text="This product is good for health please use it."
+        android:textSize="18dp" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/remove"
+        android:id="@+id/ivRemoveProduct"
+        android:layout_margin="4dp"
+        android:layout_alignParentRight="true"
+        android:padding="4dp"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/edit"
+        android:layout_toLeftOf="@id/ivRemoveProduct"
+        android:id="@+id/ivEditProduct"
+        android:layout_margin="4dp"
+        android:padding="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:id="@+id/tvProductCode"
+        android:layout_below="@+id/tvProductName"
+        android:layout_toRightOf="@+id/ivProduct"
+        android:text="Code: 1"
+        android:visibility="gone"
+        android:textSize="15dp" />
+
+</RelativeLayout>

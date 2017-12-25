@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_centerInParent="true"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:textAlignment="center"
+            android:text="Alert!!!"
+            android:textStyle="bold"
+            android:textSize="30dp"
+            android:id="@+id/tvDialogTitle"
+            android:textColor="#7b6e3b"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="100dp"
+            android:minHeight="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textAlignment="center"
+            android:textSize="18dp"
+            android:text="Are you sure you want to delete "
+            android:id="@+id/tvDialogContent"
+            android:layout_below="@id/tvDialogTitle"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/tvDialogContent">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:text="OK"
+                android:textColor="#ffffff"
+                android:background="#009900"
+                android:id="@+id/btnDialogOK"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:text="CANCEL"
+                android:textColor="#ffffff"
+                android:background="#990000"
+                android:id="@+id/btnDialogCancel"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
