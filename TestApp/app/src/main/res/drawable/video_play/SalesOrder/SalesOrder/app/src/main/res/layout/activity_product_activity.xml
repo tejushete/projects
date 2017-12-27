@@ -40,7 +40,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/add" />
+        android:background="@drawable/add_msg" />
 
     <TextView
         android:id="@+id/tvAddProduct"
@@ -66,7 +66,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/add" />
+        android:background="@drawable/add_msg" />
 
     <TextView
         android:id="@+id/tvAddCategory"

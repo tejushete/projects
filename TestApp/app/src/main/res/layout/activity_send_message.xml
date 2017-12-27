@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.teju.testapp.SendMessageActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#000000"
+        android:id="@+id/rlTitle"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/ivBack"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/back_arrow"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New message"
+            android:textColor="#ffffff"
+            android:layout_toRightOf="@+id/ivBack"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+
+            android:textStyle="bold"
+            android:textSize="20dp" />
+    </RelativeLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rlTitle"
+        android:hint="To"
+        android:textSize="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="#000000"
+        android:inputType="textNoSuggestions"
+        android:id="@+id/etPhoneNumber"
+        android:layout_height="50dp"
+        />
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etPhoneNumber"
+        android:layout_above="@+id/etTypeMessage"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/lvSendMessages"></ListView>
+
+    <EditText
+        android:layout_width="290dp"
+        android:layout_marginLeft="10dp"
+
+        android:hint="Type message"
+        android:textSize="15dp"
+        android:backgroundTint="#000000"
+        android:inputType="textNoSuggestions|textMultiLine"
+        android:id="@+id/etTypeMessage"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        />
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/send_msg"
+        android:clickable="true"
+        android:id="@+id/ivSendMessage"
+        android:layout_toRightOf="@+id/etTypeMessage"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

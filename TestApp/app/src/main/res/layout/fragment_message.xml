@@ -4,9 +4,25 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context="com.example.teju.testapp.MessageFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/rlMainTitle"
+        android:background="#00ffff">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/add_msg"
+            android:layout_marginRight="10dp"
+            android:id="@+id/ivAddMsg"
+            android:clickable="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/rlMainTitle"
         android:id="@+id/lvMessage"></ListView>
 
 

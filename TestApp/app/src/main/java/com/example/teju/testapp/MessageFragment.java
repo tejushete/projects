@@ -3,6 +3,7 @@ package com.example.teju.testapp;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +47,15 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         mMessageList=new ArrayList<UserTextMessage>();
         MainActivity.mydb.getAllMessages();
+
+        ImageView ivAddMsg = (ImageView)view.findViewById(R.id.ivAddMsg);
+        ivAddMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),SendMessageActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         listView = (ListView)view.findViewById(R.id.lvMessage);
