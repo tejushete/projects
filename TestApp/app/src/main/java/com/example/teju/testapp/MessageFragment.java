@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class MessageFragment extends Fragment {
     ListView listView;
     MessageFragmentAdapter adapter;
     ArrayList<UserTextMessage>mMessageList;
@@ -46,7 +46,7 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         mMessageList=new ArrayList<UserTextMessage>();
-        MainActivity.mydb.getAllMessages();
+        MainActivity.mydb.getLastRecordOfEveryNumber();
 
         ImageView ivAddMsg = (ImageView)view.findViewById(R.id.ivAddMsg);
         ivAddMsg.setOnClickListener(new View.OnClickListener() {
@@ -63,17 +63,35 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
             adapter = new MessageFragment.MessageFragmentAdapter(this.getActivity());
             listView.setAdapter(adapter);
         }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(),ReceiveSendMessageActivity.class);
+                startActivity(intent);
+            }
+        });
 
         requestPermission();
 
-        mMessageList = MainActivity.mydb.getAllMessages();
+        mMessageList = MainActivity.mydb.getLastRecordOfEveryNumber();
 
         return view;
     }
 
     public void recievedNewMessage(UserTextMessage msg){
-        Log.d("MessageFragment", "msg received "+msg.getNumber()+", "+msg.getMessageBody());
 
+        Log.d("MessageFragment", "msg received "+msg.getNumber()+", "+msg.getMessageBody());
+        for(int i=1;i<mMessageList.size();i++){
+            if(mMessageList.contains(msg.getNumber())){
+                int itemIndex =mMessageList.indexOf(msg.getNumber());
+                if(itemIndex!=-1) {
+                    mMessageList.set(itemIndex,msg);
+                }
+
+            }
+
+
+        }
         mMessageList.add(0,msg);
         adapter.notifyDataSetChanged();
 
@@ -81,10 +99,7 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-    }
     public class MessageFragmentAdapter extends BaseAdapter {
         Context mContext;
 
@@ -110,7 +125,7 @@ public class MessageFragment extends Fragment implements AdapterView.OnItemClick
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View list = view;
-                 UserTextMessage msg =mMessageList.get(i);
+            UserTextMessage msg =mMessageList.get(i);
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if (list == null) {

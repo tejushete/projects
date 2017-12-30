@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -82,10 +83,13 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
             SmsManager smsManager = SmsManager.getDefault();
             smsManager.sendTextMessage(phoneNo, null, message, null, null);
             Toast.makeText(SendMessageActivity.this, "SMS Sent", Toast.LENGTH_SHORT).show();
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setSendMessageBody(message);
-            MainActivity.mydb.insertSendingMessageDetails(sendMessage);
-            mSendingMessageActivityList.add(sendMessage);
+            UserTextMessage sendMessage = new UserTextMessage();
+            sendMessage.setNumber(phoneNo);
+            sendMessage.setMessageBody(message);
+            sendMessage.setDirection("send");
+
+           // MainActivity.mydb.insertMessageDetails(sendMessage);
+//            mSendingMessageActivityList.add(sendMessage);
             adapter.notifyDataSetChanged();
         }
     }
@@ -95,7 +99,10 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
         mSendingMessageActivityList=new ArrayList<SendMessage>();
-        mSendingMessageActivityList=MainActivity.mydb.sendAllMessages();
+     //   mSendingMessageActivityList=MainActivity.mydb.sendAllMessages();
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         listView = (ListView) findViewById(R.id.lvSendMessages);
         if (getAssets() != null) {
@@ -138,7 +145,7 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
 
         @Override
         public int getCount() {
-            return 0;
+            return mSendingMessageActivityList.size();
         }
 
         @Override
@@ -154,14 +161,14 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View list = view;
-            SendMessage sendMessage = mSendingMessageActivityList.get(i);
+           // SendMessage sendMessage = mSendingMessageActivityList.get(i);
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if (list == null) {
                 list = inflater.inflate(R.layout.send_message, null);
             }
               TextView tvSendMessageBody = (TextView)list.findViewById(R.id.tvSendMessageBody);
-            tvSendMessageBody.setText(sendMessage.getSendMessageBody());
+         //   tvSendMessageBody.setText(m.getSendMessageBody());
 
 
 

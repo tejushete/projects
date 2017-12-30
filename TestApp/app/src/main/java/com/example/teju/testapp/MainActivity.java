@@ -192,8 +192,10 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                          String number = data.getString("no");
                          String messageBody = data.getString("msg");
 
+
                          UserTextMessage userTextMessage = new UserTextMessage();
                          userTextMessage.setNumber(number);
+                         userTextMessage.setDirection("receive");
                          userTextMessage.setMessageBody(messageBody);
 
                          Log.d("mainactivity", number+", "+messageBody);

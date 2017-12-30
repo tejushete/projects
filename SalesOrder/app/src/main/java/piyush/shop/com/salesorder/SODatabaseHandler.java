@@ -124,24 +124,41 @@ public class SODatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         String strSQL = "UPDATE " + PRODUCT_TABLE_NAME +
-                " SET " + KEY_STOCK + " = '" + product.getStock() +"' , "+
-                KEY_NAME +" ='"+product.getName().trim()+"' , "+
-                KEY_DESCRIPTION +" ='"+product.getDescription().trim()+"' , "+
-                KEY_SUPPLIER +" ='"+product.getSupplier().trim()+"' , "+
-                KEY_CATEGORY +" ='"+product.getCategory().trim()+"' , "+
-                KEY_SUB_CATEGORY +" ='"+product.getSubCategory().trim()+"' , "+
-                KEY_PRICE +" ='"+product.getPrice()+"' , "+
-                KEY_MIN_ORDER_QUANTITY +" ='"+product.getMinOrderQuantity()+"' , "+
-                KEY_MIN_STOCK_QUANTITY +" ='"+product.getMinStockQuantity()+"' , "+
-                KEY_COST_PRICE +" ='"+product.getCostPrice()+"' , "+
-                KEY_SALE_PRICE +" ='"+product.getSalePrice()+"' , "+
-                KEY_PHOTO_PATH +" ='"+product.getPicPath()+"' , "+
-                KEY_MRP +" ='"+product.getMRP()+"' , "+
-                KEY_GENERATED_ORDER_QUANTITY +" ='"+product.getGeneratedOrderQuantity()+"'  "+
-                " WHERE " + KEY_CODE + "= '" + product.getCode()+"'";
+                " SET " + KEY_STOCK + " =  ? , "+
+                KEY_NAME +" =? , "+
+                KEY_DESCRIPTION +" =? , "+
+                KEY_SUPPLIER +" =? , "+
+                KEY_CATEGORY +" =? , "+
+                KEY_SUB_CATEGORY +" =? , "+
+                KEY_PRICE +" =? , "+
+                KEY_MIN_ORDER_QUANTITY +" =? , "+
+                KEY_MIN_STOCK_QUANTITY +" =? , "+
+                KEY_COST_PRICE +" =? , "+
+                KEY_SALE_PRICE +" =? , "+
+                KEY_PHOTO_PATH +" =? , "+
+                KEY_MRP +" =? , "+
+                KEY_GENERATED_ORDER_QUANTITY +" =?  "+
+                " WHERE " + KEY_CODE + "= ?";
 
+        Log.d("<>", "product update db query:"+strSQL);
         try {
-            db.execSQL(strSQL);
+            db.execSQL(strSQL, new Object[]{
+                    product.getStock(),
+                    product.getName().trim(),
+                    product.getDescription().trim(),
+                    product.getSupplier().trim(),
+                    product.getCategory().trim(),
+                    product.getSubCategory().trim(),
+                    product.getPrice(),
+                    product.getMinOrderQuantity(),
+                    product.getMinStockQuantity(),
+                    product.getCostPrice(),
+                    product.getSalePrice(),
+                    product.getPicPath(),
+                    product.getMRP(),
+                    product.getGeneratedOrderQuantity(),
+                    product.getCode()
+            });
         }catch (Exception e){
             e.printStackTrace();
         }

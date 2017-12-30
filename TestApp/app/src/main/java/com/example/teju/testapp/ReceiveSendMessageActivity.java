@@ -1,0 +1,13 @@
+package com.example.teju.testapp;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class ReceiveSendMessageActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_receive_send_message);
+    }
+}

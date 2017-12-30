@@ -7,6 +7,15 @@ package com.example.teju.testapp;
 public class UserTextMessage {
     private String Number;
     private String MessageBody;
+    private String Direction;
+
+    public String getDirection() {
+        return Direction;
+    }
+
+    public void setDirection(String direction) {
+        Direction = direction;
+    }
 
     public String getNumber() {
         return Number;
