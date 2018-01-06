@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.LogRecord;
 
 public class MainActivity extends FragmentActivity implements MsgServiceControlInterface {
@@ -27,7 +30,9 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
     Context context;
     static DBHelper mydb;
     MessageFragment messageFm;
+    ContentMessageFragment contentMessageFm;
     boolean isMessageFragmentActive = false;
+    boolean isContentMessageFragmentActive = false;
 
 
     public void showDialogForBatteryLow(){
@@ -164,8 +169,11 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
         LinearLayout llAlarm = (LinearLayout)findViewById(R.id.llAlarm);
         LinearLayout llSettings = (LinearLayout)findViewById(R.id.llSettings);
         LinearLayout llMessages =(LinearLayout)findViewById(R.id.llMessages);
+        LinearLayout llContentMessages =(LinearLayout)findViewById(R.id.llContentMessages);
 
-         handler = new Handler(){
+
+
+        handler = new Handler(){
              public void handleMessage(Message msg){
                  switch (msg.what){
                      case 0:
@@ -191,21 +199,36 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                          Log.d("BUNDLE", data.toString());
                          String number = data.getString("no");
                          String messageBody = data.getString("msg");
+                         Date currentTime = Calendar.getInstance().getTime();
+                         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+
+                         String currentTimeDate = format1.format(currentTime);
+                         Log.d("currentTimeDate", "currentTimeDate"+currentTimeDate);
 
 
                          UserTextMessage userTextMessage = new UserTextMessage();
                          userTextMessage.setNumber(number);
                          userTextMessage.setDirection("receive");
                          userTextMessage.setMessageBody(messageBody);
+                         userTextMessage.setDate(currentTimeDate);
 
                          Log.d("mainactivity", number+", "+messageBody);
 
                          mydb.insertMessageDetails(userTextMessage);
 
+                         Log.d("messageFm", messageFm+", "+isMessageFragmentActive);
+                         Log.d("contentMessageFm", contentMessageFm+", "+isContentMessageFragmentActive);
+
+
+
                          if(messageFm!=null&&isMessageFragmentActive==true){
+                             Log.d("msgFragment", number+", "+messageBody);
                              messageFm.recievedNewMessage(userTextMessage);
 
-                         }
+                         } if(contentMessageFm!=null&&isContentMessageFragmentActive==true){
+                             Log.d("contentMessageFragment", number+", "+messageBody);
+                             contentMessageFm.getNewMessage(userTextMessage);
+                        }
 
                          break;
                      }
@@ -231,6 +254,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
             fragmentTransaction.replace(R.id.fmMainView, contactsFm);
             fragmentTransaction.commit();
             isMessageFragmentActive=false;
+            isContentMessageFragmentActive=false;
         }
     });
 
@@ -248,6 +272,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 fragmentTransaction.replace(R.id.fmMainView, callLogsFm);
                 fragmentTransaction.commit();
                 isMessageFragmentActive=false;
+                isContentMessageFragmentActive=false;
             }
         });
 
@@ -265,8 +290,30 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 fragmentTransaction.replace(R.id.fmMainView, messageFm);
                 fragmentTransaction.commit();
                 isMessageFragmentActive=true;
+                isContentMessageFragmentActive=false;
+            }
+
+
+        });
+
+        llContentMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getSupportFragmentManager();
+                Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.fmMainView);
+
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                if(oldFragment != null) {
+                    fragmentTransaction.remove(oldFragment);
+                }
+                 contentMessageFm = new ContentMessageFragment();
+                fragmentTransaction.replace(R.id.fmMainView, contentMessageFm);
+                fragmentTransaction.commit();
+                isMessageFragmentActive=false;
+                isContentMessageFragmentActive=true;
             }
         });
+
 
 
         llMusic.setOnClickListener(new View.OnClickListener() {
@@ -282,6 +329,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 fragmentTransaction.replace(R.id.fmMainView, musicFm);
                 fragmentTransaction.commit();
                 isMessageFragmentActive=false;
+                isContentMessageFragmentActive=false;
             }
         });
 
@@ -298,6 +346,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 fragmentTransaction.replace(R.id.fmMainView, videoFm);
                 fragmentTransaction.commit();
                 isMessageFragmentActive=false;
+                isContentMessageFragmentActive=false;
             }
         });
         llSettings.setOnClickListener(new View.OnClickListener() {
@@ -313,6 +362,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 fragmentTransaction.replace(R.id.fmMainView, settingFm);
                 fragmentTransaction.commit();
                 isMessageFragmentActive=false;
+                isContentMessageFragmentActive=false;
             }
         });
 

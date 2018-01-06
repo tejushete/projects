@@ -3,6 +3,7 @@ package com.example.teju.testapp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -24,7 +25,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SendMessageActivity extends Activity implements AdapterView.OnItemClickListener {
     EditText etPhoneNumber;
@@ -34,7 +38,7 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
     ImageView ivSendMessage;
     ListView listView;
     SendMessageAdapter adapter;
-    ArrayList<SendMessage>mSendingMessageActivityList;
+    ArrayList<UserTextMessage>mSendingMessageActivityList;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -86,11 +90,24 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
             UserTextMessage sendMessage = new UserTextMessage();
             sendMessage.setNumber(phoneNo);
             sendMessage.setMessageBody(message);
-            sendMessage.setDirection("send");
 
-           // MainActivity.mydb.insertMessageDetails(sendMessage);
-//            mSendingMessageActivityList.add(sendMessage);
-            adapter.notifyDataSetChanged();
+            sendMessage.setDirection("send");
+            Date currentTime = Calendar.getInstance().getTime();
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+            String currentTimeDate = format1.format(currentTime);
+            sendMessage.setDate(currentTimeDate);
+
+           MainActivity.mydb.insertMessageDetails(sendMessage);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("Message Body",message );
+            resultIntent.putExtra("Phone No",phoneNo);
+            resultIntent.putExtra("current Time and date",currentTimeDate);
+
+            setResult(RESULT_OK, resultIntent);
+            finish();
+
+           mSendingMessageActivityList.add(sendMessage);
+           adapter.notifyDataSetChanged();
         }
     }
 
@@ -98,8 +115,8 @@ public class SendMessageActivity extends Activity implements AdapterView.OnItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
-        mSendingMessageActivityList=new ArrayList<SendMessage>();
-     //   mSendingMessageActivityList=MainActivity.mydb.sendAllMessages();
+        mSendingMessageActivityList=new ArrayList<UserTextMessage>();
+
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

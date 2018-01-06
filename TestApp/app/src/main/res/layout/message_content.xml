@@ -8,32 +8,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone Number"
-        android:id="@+id/tvPhoneNumber"
+        android:id="@+id/tvContentPhoneNumber"
         android:textSize="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:text="Message Body"
-        android:id="@+id/tvMessageBody"
-        android:textSize="20dp"
-        android:layout_below="@+id/tvPhoneNumber"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"/>
+        android:textColor="#000000"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text=""
+        android:text="Message Body"
+        android:id="@+id/tvContentMessageBody"
         android:textSize="20dp"
-        android:id="@+id/tvSize"
+        android:layout_below="@+id/tvContentPhoneNumber"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:textColor="#000000"
-        android:padding="5dp"
-        android:background="#00ff0f"
-        android:layout_marginRight="10dp"/>
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="dtae and time"
+        android:id="@+id/tvContentMessageDateAndTime"
+        android:textSize="20dp"
+        android:layout_below="@+id/tvContentMessageBody"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        />
+
 
 
 </RelativeLayout>

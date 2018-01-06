@@ -8,9 +8,28 @@ public class UserTextMessage {
     private String Number;
     private String MessageBody;
     private String Direction;
+    private String Date;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
 
     public String getDirection() {
         return Direction;
+
     }
 
     public void setDirection(String direction) {

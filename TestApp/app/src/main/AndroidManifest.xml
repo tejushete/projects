@@ -68,8 +68,9 @@
 
         <activity
             android:name=".SendMessageActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <activity android:name=".ReceiveSendMessageActivity"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".ReceiveSendMessageActivity" />
+        <activity android:name=".SecondContentMessageActivity"></activity>
     </application>
 
 </manifest>

@@ -33,7 +33,11 @@ public class SettingFragment extends Fragment {
 
         final CheckBox cbReadMsgs =(CheckBox)view.findViewById(R.id.cbReadMsgs);
 
+
+
         cbReadMsgs.setChecked(preferences.getMessageStorageEnabled());
+
+
 
         cbReadMsgs.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
