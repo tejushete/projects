@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.teju.testapp">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -28,16 +29,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver android:name=".MyReceiver">
+        <activity android:name=".PhoneListActivity" />
+        <activity android:name=".VideoPlayerActivity" />
+        <activity
+            android:name=".SendMessageActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW" />
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
-                <action android:name="android.intent.action.BATTERY_OKAY" />
-                <action android:name="android.intent.action.AIRPLANE_MODE" />
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
             </intent-filter>
-        </receiver>
+        </activity>
+        <activity android:name=".ReceiveSendMessageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SecondContentMessageActivity" />
+
         <receiver
             android:name=".MsgServiceRestartReceiver"
             android:enabled="true"
@@ -46,14 +71,27 @@
                 <action android:name="com.example.teju.custom.intent.action.TEST" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".MMSBroadcastReceiver"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
 
-        <activity android:name=".PhoneListActivity" />
-        <activity android:name=".VideoPlayerActivity" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".SMSBroadcastReceiver"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".MyService"
-            android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
             <intent-filter>
                 <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
 
@@ -66,11 +104,9 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".SendMessageActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".ReceiveSendMessageActivity" />
-        <activity android:name=".SecondContentMessageActivity"></activity>
+        <activity android:name=".SendMessageContentByBtn"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            </activity>
     </application>
 
 </manifest>

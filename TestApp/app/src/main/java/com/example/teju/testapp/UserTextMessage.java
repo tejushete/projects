@@ -10,6 +10,24 @@ public class UserTextMessage {
     private String Direction;
     private String Date;
     private String address;
+    private String Type;
+    private Boolean readStatus;
+
+    public Boolean getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(Boolean readStatus) {
+        this.readStatus = readStatus;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
 
     public String getAddress() {
         return address;

@@ -3,41 +3,74 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:background="#0ff00000"
+        android:visibility="invisible"
+        android:id="@+id/rlMessageBodyHolder"
+        android:layout_height="90dp"></RelativeLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Phone Number"
         android:id="@+id/tvContentPhoneNumber"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:textColor="#000000"
         />
+    <TextView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:text=""
+        android:textSize="20sp"
+        android:layout_toRightOf="@+id/tvContentPhoneNumber"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+
+        android:background="@drawable/rounded_textview"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:id="@+id/tvUnreadMessages" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Message Body"
         android:id="@+id/tvContentMessageBody"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:layout_below="@+id/tvContentPhoneNumber"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:textColor="#000000"
+        android:singleLine="true"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="dtae and time"
+        android:text="date and time"
         android:id="@+id/tvContentMessageDateAndTime"
-        android:textSize="20dp"
+        android:textSize="10dp"
         android:layout_below="@+id/tvContentMessageBody"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:textColor="#000000"
         />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="draft"
+        android:id="@+id/tvContentMessageDraft"
+        android:textSize="20dp"
+        android:layout_below="@+id/tvUnreadMessages"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        android:visibility="invisible"
+        android:textColor="#ff0000"
+        />
 
 
 </RelativeLayout>

@@ -29,6 +29,11 @@ public class TestAppSharedPreferences implements SharedPreferences.OnSharedPrefe
         return mySharedPref;
     }
 
+    public void setMessageStorageEnabled(boolean value){
+        editor= androidPref.edit();
+        editor.putBoolean("isChecked", value);
+        editor.commit();
+    }
 
     public boolean getMessageStorageEnabled(){
         boolean ret;
@@ -36,16 +41,21 @@ public class TestAppSharedPreferences implements SharedPreferences.OnSharedPrefe
         return ret;
     }
 
-   public void setMessageStorageEnabled(boolean value){
-         editor= androidPref.edit();
-         editor.putBoolean("isChecked", value);
-         editor.commit();
-   }
-
-
+    public void setDraftMessage(String number, String value){
+        editor = androidPref.edit();
+        editor.putString(number,value);
+        editor.commit();
+    }
+    public String getDraftMessage(String number){
+        String s1;
+        s1 = androidPref.getString(number,"");
+        return s1;
+    }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        if(key == null && key.isEmpty()) return;
 
       if(key.equals("isChecked")==true){
           boolean ret = sharedPreferences.getBoolean(key,false);
@@ -53,9 +63,7 @@ public class TestAppSharedPreferences implements SharedPreferences.OnSharedPrefe
               ((MsgServiceControlInterface)(TestAppSharedPreferences.mySharedPref.context)).startMessageReceiverService();
           }else{
               ((MsgServiceControlInterface)(TestAppSharedPreferences.mySharedPref.context)).stopMessageReceiverService();
-
           }
-
       }
 
     }
