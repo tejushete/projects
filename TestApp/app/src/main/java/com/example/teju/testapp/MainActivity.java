@@ -33,6 +33,7 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.logging.LogRecord;
 
 public class MainActivity extends FragmentActivity implements MsgServiceControlInterface {
@@ -43,60 +44,60 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
     MessageFragment messageFm;
     SettingFragment settingFm;
     ContentMessageFragment contentMessageFm;
-    String messageBody, number;
     boolean isMessageFragmentActive = false;
     boolean isContentMessageFragmentActive = false;
-    int notiication_id = 1;
-    int message_count = 1;
-    private boolean isAreadyCall = false;
+    HashMap<String, Object> mMap;
 
-
+    private int noti_id_counter = 0;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void notificationOerations(int id, int count) {
-
+    public void notificationOerations(com.example.teju.testapp.Notification notification) {
         android.support.v4.app.NotificationCompat.Builder mBuilder =
                 new android.support.v4.app.NotificationCompat.Builder(this);
         mBuilder.setSmallIcon(R.drawable.noti_one_msg);
-        mBuilder.setContentTitle(number + "  " + count);
-        mBuilder.setContentText(messageBody);
+        mBuilder.setContentTitle(notification.getNumber() + "  " + notification.getMessage_count());
+        mBuilder.setContentText(notification.getMessageBody());
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         mBuilder.setSound(alarmSound);
         mBuilder.setAutoCancel(true);
         Intent intent = new Intent(this, SecondContentMessageActivity.class);
-        intent.putExtra("contentNumber", number);
+        Log.d("NOTI-ISSUED", notification.getNumber());
+        intent.putExtra("contentNumber", notification.getNumber());
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
         stackBuilder.addParentStack(SecondContentMessageActivity.class);
         stackBuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_ONE_SHOT);
+
+        if(notification.getMessage_id() == -1){
+            noti_id_counter++;
+            if(noti_id_counter == Integer.MAX_VALUE){
+                noti_id_counter = 1;
+            }
+            notification.setMessage_id(noti_id_counter);
+        }
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(notification.getMessage_id(), PendingIntent.FLAG_UPDATE_CURRENT + PendingIntent.FLAG_ONE_SHOT);
         mBuilder.setContentIntent(pendingIntent);
 
         NotificationManager NM = (NotificationManager) getSystemService(context.NOTIFICATION_SERVICE);
 
-        NM.notify(id, mBuilder.build());
 
+        NM.notify(notification.getMessage_id(), mBuilder.build());
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public void issueNotification() {
-        this.notificationOerations(notiication_id, message_count);
-        isAreadyCall = true;
-        Log.d("<><><>", "messageCount" + message_count);
+    public void issueNotification(com.example.teju.testapp.Notification notification) {
+        notification.increaseMeassageCountByOne();
+        this.notificationOerations(notification);
+        Log.d("<><><>", "messageCount" + notification.getMessage_count());
+    }
+
+    public void updateNotification(com.example.teju.testapp.Notification notification) {
+        notification.increaseMeassageCountByOne();
+        this.notificationOerations(notification);
 
     }
 
-    public void updateNotification() {
-        message_count++;
-        this.notificationOerations(notiication_id, message_count);
-        Log.d("<><><>", "messageCount" + message_count);
-    }
-
-    public void issueAnotherNotification() {
-        notiication_id = 2;
-        message_count = 1;
-        this.notificationOerations(notiication_id, message_count);
-        Log.d("<><><>", "messageCount" + message_count);
-
-
+    public void issueAnotherNotification(com.example.teju.testapp.Notification notification) {
+        this.notificationOerations(notification);
     }
 
 
@@ -230,9 +231,9 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        mMap = new HashMap<String, Object>();
         context = MainActivity.this;
+      //  startService(new Intent(this,MyService.class));
         TestAppSharedPreferences preferences = TestAppSharedPreferences.getInstance(context);
         if (preferences.getMessageStorageEnabled() == true) {
             Log.d(MainActivity.class.getSimpleName(), "msg rcv is enabled in preferences");
@@ -306,13 +307,23 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                     case 7: {
                         Bundle data = msg.getData();
                         Log.d("BUNDLE", data.toString());
-                        number = data.getString("no");
-                        messageBody = data.getString("msg");
-                        if (isAreadyCall == true) {
-                            updateNotification();
-                        } else {
-                            issueNotification();
+                        String number = data.getString("no");
+                        String messageBody = data.getString("msg");
+
+                       /* com.example.teju.testapp.Notification noti = (com.example.teju.testapp.Notification) mMap.get(number);
+                        Log.d("NOTI", noti+"");
+                        if (noti == null) {
+                            noti = new com.example.teju.testapp.Notification();
+                            noti.setMessageBody(messageBody);
+                            noti.setNumber(number);
+                            mMap.put(number, noti);
                         }
+
+                        if (noti.getMessage_id() == -1) {
+                            issueNotification(noti);
+                        } else {
+                            updateNotification(noti);
+                        }*/
 
                         UserTextMessage userTextMessage = new UserTextMessage();
                         userTextMessage.setNumber(number);
@@ -481,7 +492,17 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
 
     }
 
-    Intent serviceIntent;
+    @Override
+    public void startMessageReceiverService() {
+
+    }
+
+    @Override
+    public void stopMessageReceiverService() {
+
+    }
+
+    /*Intent serviceIntent;
 
     @Override
     public void startMessageReceiverService() {
@@ -506,7 +527,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
     protected void onDestroy() {
         super.onDestroy();
         //stopMessageReceiverService();
-    }
+    }*/
 
 }
 

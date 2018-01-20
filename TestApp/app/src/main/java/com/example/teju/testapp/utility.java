@@ -1,10 +1,12 @@
 package com.example.teju.testapp;
 
+import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.Telephony;
 import android.util.Log;
 
@@ -56,4 +58,10 @@ public class utility {
         values.put("read", msg.getReadStatus());
         context.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + smsId, null);
     }
+
+
+
+
+
+
 }

@@ -58,9 +58,9 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
 //        dumpIntent(intent);
 
-        Message msg = new Message();
+     /*   Message msg = new Message();
         msg.what = 7;
-
+*/
         Bundle bundle = intent.getExtras();
 
         if (bundle != null) {
@@ -73,16 +73,23 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
 
                 Log.d("<><>", message + ", " + phoneNumber);
 
-                Bundle args = new Bundle();
+                Intent intent1 = new Intent(context, MyService.class);
+                intent1.putExtra("msg", message);
+                intent1.putExtra("number", phoneNumber);
+                context.startService(intent1);
+
+
+               /* Bundle args = new Bundle();
                 args.putString("no", phoneNumber);
                 args.putString("msg", message);
 
-                msg.setData(args);
+                msg.setData(args);*/
             }
 
-            if (MainActivity.handler != null) {
+           /* if (MainActivity.handler != null) {
                 MainActivity.handler.dispatchMessage(msg);
-            }
+            }*/
+
 
         }
     }

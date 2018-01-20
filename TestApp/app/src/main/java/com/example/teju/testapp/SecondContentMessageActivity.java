@@ -44,6 +44,7 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
     String contentNumber, message;
     EditText etSendMessage;
     TestAppSharedPreferences testAppSharedPreferences;
+    DBHelper mydb;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public  void seneMessage() {
@@ -160,6 +161,7 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
         etSendMessage = (EditText)findViewById(R.id.etSendMessage);
         testAppSharedPreferences = TestAppSharedPreferences.getInstance(SecondContentMessageActivity.this);
         listView = (ListView)findViewById(R.id.lvSecondContent);
+        mydb = new DBHelper(SecondContentMessageActivity.this);
         if (getAssets() != null) {
             adapter = new SecondContentMessageActivity.SecondContentMessageAdapter(SecondContentMessageActivity.this);
             listView.setAdapter(adapter);
@@ -175,6 +177,15 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
 
         Intent intent = getIntent();
         contentNumber = intent.getStringExtra("contentNumber");
+        Boolean value = intent.getBooleanExtra("NotiClick",false);
+
+        if(value==null){
+            return;
+        }else{
+            Notification notification = new Notification(contentNumber);
+            mydb.updateNotificationDetails(notification);
+        }
+
 
         Log.d("<><><><>", "ContentNumber" + contentNumber);
 
