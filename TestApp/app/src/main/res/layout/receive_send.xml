@@ -4,18 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ivReceiveMsg"
+        android:layout_marginLeft="10dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hjhjhjh"
         android:id="@+id/tvReceive_Message_Body"
         android:textSize="15dp"
-        android:background="#00ff00"
+        android:background="#01f7d6"
+        android:layout_toRightOf="@+id/ivReceiveMsg"
         android:visibility="visible"
         android:textColor="#000000"
         android:padding="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="2dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,10 +31,20 @@
         android:id="@+id/tvSend_Message_Body"
         android:textSize="15dp"
         android:padding="10dp"
-        android:background="#f0000f"
+        android:layout_toLeftOf="@+id/ivSendMsg"
+        android:background="#01f7d6"
         android:textColor="#000000"
+        android:layout_marginRight="2dp"
         android:layout_marginTop="10dp"
+
+        />
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ivSendMsg"
         android:layout_marginRight="10dp"
+        android:src="@drawable/receive_send_profile"
         android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

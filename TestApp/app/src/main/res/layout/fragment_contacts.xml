@@ -2,13 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cccccc"
+    android:background="#2d3e52"
     tools:context="com.example.teju.testapp.contactsFragment">
+
+
 
     <ListView
         android:id="@+id/lst_contacts"
         android:layout_width="wrap_content"
+        android:fastScrollEnabled="true"
         android:layout_height="wrap_content" />
+
+
+
+
+
 
 
 </RelativeLayout>

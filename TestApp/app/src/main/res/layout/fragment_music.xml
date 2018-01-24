@@ -4,26 +4,12 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context="com.example.teju.testapp.MusicFragment">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/rlTitleView"
-        android:layout_height="60dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Music Player"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
-
-    </RelativeLayout>
 
     <ListView
         android:id="@+id/lvSong_list"
         android:layout_width="fill_parent"
         android:layout_below="@+id/rlTitleView"
+        android:background="#2d3e52"
         android:layout_above="@+id/rlProgressBarView"
         android:layout_height="wrap_content" >
     </ListView>

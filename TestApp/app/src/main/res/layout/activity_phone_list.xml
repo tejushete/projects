@@ -9,28 +9,30 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp">
+        android:layout_height="220dp">
 
     <ImageView
         android:layout_width="match_parent"
         android:id="@+id/tvProfilePic"
-        android:src="@drawable/blank"
+        android:src="@drawable/phone_list_profile"
+        android:background="#2d3e52"
         android:layout_height="match_parent" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PersonName"
         android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:id="@+id/tvContactName"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:textSize="20dp"
+        android:textColor="#01f7d6"
+        android:textSize="35dp"
         android:layout_gravity="bottom"/>
     </FrameLayout>
     <ListView
         android:id="@+id/lvPhn-list"
         android:layout_width="wrap_content"
+        android:background="@drawable/boarder_listview"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

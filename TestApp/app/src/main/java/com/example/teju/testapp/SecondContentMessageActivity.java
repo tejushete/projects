@@ -3,6 +3,7 @@ package com.example.teju.testapp;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,6 +31,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +48,7 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
     EditText etSendMessage;
     TestAppSharedPreferences testAppSharedPreferences;
     DBHelper mydb;
+    Uri picsUri;
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public  void seneMessage() {
@@ -141,6 +145,7 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             mSelectedList.add(textMessage);
                             adapter.notifyDataSetChanged();
 
@@ -177,7 +182,14 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
 
         Intent intent = getIntent();
         contentNumber = intent.getStringExtra("contentNumber");
+
         Boolean value = intent.getBooleanExtra("NotiClick",false);
+         String img = intent.getExtras().getString("Image");
+         if(img!=null) {
+             picsUri = Uri.parse(img);
+         }
+
+
 
         if(value==null){
             return;
@@ -237,16 +249,30 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
             if(textMessage.getType().equals("1")) {
                 TextView tvReceive_Message_Body = (TextView) list.findViewById(R.id.tvReceive_Message_Body);
                 TextView tvSend_Message_Body = (TextView) list.findViewById(R.id.tvSend_Message_Body);
-
+                ImageView ivReceiveMsg =(ImageView)list.findViewById(R.id.ivReceiveMsg);
+                ImageView ivSendMsg = (ImageView)list.findViewById(R.id.ivSendMsg);
                 tvReceive_Message_Body.setText(textMessage.getMessageBody());
                 tvReceive_Message_Body.setVisibility(View.VISIBLE);
                 tvSend_Message_Body.setVisibility(View.INVISIBLE);
+                ivReceiveMsg.setVisibility(View.VISIBLE);
+                ivSendMsg.setVisibility(View.INVISIBLE);
+                if(getAssets() != null) {
+                    Glide.with(SecondContentMessageActivity.this)
+                            .load(picsUri)
+                            .placeholder(R.drawable.receive_send_profile)
+                            .into(ivReceiveMsg);
+                }
             }else {
                 TextView tvSend_Message_Body = (TextView) list.findViewById(R.id.tvSend_Message_Body);
                 TextView tvReceive_Message_Body = (TextView) list.findViewById(R.id.tvReceive_Message_Body);
+                ImageView ivReceiveMsg =(ImageView)list.findViewById(R.id.ivReceiveMsg);
+                ImageView ivSendMsg = (ImageView)list.findViewById(R.id.ivSendMsg);
                 tvSend_Message_Body.setText(textMessage.getMessageBody());
                 tvSend_Message_Body.setVisibility(View.VISIBLE);
                 tvReceive_Message_Body.setVisibility(View.INVISIBLE);
+                ivReceiveMsg.setVisibility(View.INVISIBLE);
+                ivSendMsg.setVisibility(View.VISIBLE);
+
             }
 
             return list;
@@ -285,19 +311,23 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
             intent.putExtra("number",contentNumber);
             setResult(RESULT_OK,intent);
         }else{
-            UserTextMessage msg = mSelectedList.get(mSelectedList.size()-1);
-            String message = msg.getMessageBody();
-            testAppSharedPreferences.setDraftMessage(contentNumber,"");
-            Intent intent = new Intent();
-            Log.d("<><><>","message"+message);
+
+            if(mSelectedList.size() != 0) {
+                UserTextMessage msg = mSelectedList.get(mSelectedList.size() - 1);
+                String message = msg.getMessageBody();
+                testAppSharedPreferences.setDraftMessage(contentNumber, "");
+                Intent intent = new Intent();
+                Log.d("<><><>", "message" + message);
 
 
-            intent.putExtra("message",message);
-            intent.putExtra("number",contentNumber);
-            setResult(RESULT_OK,intent);
-
+                intent.putExtra("message", message);
+                intent.putExtra("number", contentNumber);
+                setResult(RESULT_OK, intent);
+            }
         }
+
         super.onBackPressed();
+
     }
 }
 

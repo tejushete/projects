@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.example.teju.testapp.SecondContentMessageActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#0000ff"
+        android:background="#e6065c"
         android:id="@+id/rlTitleLayout">
 
         <TextView
@@ -21,7 +22,7 @@
             android:id="@+id/tvTitlePhoneNumber"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:textColor="#ffffff"/>
+            android:textColor="#01f7d6"/>
 
     </RelativeLayout>
     <ListView
@@ -30,8 +31,10 @@
         android:layout_below="@+id/rlTitleLayout"
         android:layout_above="@+id/etSendMessage"
         android:stackFromBottom="true"
+        android:background="#2d3e52"
         android:transcriptMode="alwaysScroll"
         android:layout_height="match_parent"></ListView>
+
 
     <EditText
         android:layout_width="270dp"

@@ -17,13 +17,14 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:id="@+id/rlBottomTabs"
+
     android:layout_alignParentBottom="true"
     android:layout_height="50dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#aaFF4500"
+        android:background="#e6065c"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -31,17 +32,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llContacts"
-            android:layout_weight="0.2">
+            android:layout_weight="0.3">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="35dp"
                 android:src="@drawable/contacts"/>
 
         </LinearLayout>
 
-        <LinearLayout
+    <!--    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llCallLogs"
@@ -53,9 +55,9 @@
                 android:layout_gravity="center"
                 android:src="@drawable/calllogs"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llMessages"
@@ -67,18 +69,19 @@
                 android:layout_gravity="center"
                 android:src="@drawable/message"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llContentMessages"
-            android:layout_weight="0.2">
+            android:layout_weight="0.3">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="35dp"
                 android:src="@drawable/content_message"/>
 
         </LinearLayout>
@@ -88,17 +91,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llMusic"
-            android:layout_weight="0.2">
+            android:layout_weight="0.3">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
+                android:layout_marginLeft="35dp"
+
                 android:src="@drawable/music"/>
 
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llAlarm"
@@ -110,22 +115,23 @@
                 android:layout_gravity="center"
                 android:src="@drawable/alarm"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/llVideo"
-            android:layout_weight="0.2">
+            android:layout_weight="0.3">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center"
-                android:src="@drawable/video"/>
+                android:layout_marginLeft="35dp"
+                android:src="@drawable/video_playlist"/>
 
         </LinearLayout>
-
+<!--
         <LinearLayout
             android:id="@+id/llSettings"
             android:layout_width="match_parent"
@@ -141,7 +147,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/settings"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
     </LinearLayout>
     </RelativeLayout>

@@ -243,13 +243,13 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
         mydb = new DBHelper(MainActivity.this);
 
         LinearLayout llContacts = (LinearLayout) findViewById(R.id.llContacts);
-        LinearLayout llCallLogs = (LinearLayout) findViewById(R.id.llCallLogs);
+      //  LinearLayout llCallLogs = (LinearLayout) findViewById(R.id.llCallLogs);
         LinearLayout llMusic = (LinearLayout) findViewById(R.id.llMusic);
         LinearLayout llVideo = (LinearLayout) findViewById(R.id.llVideo);
 
-        LinearLayout llAlarm = (LinearLayout) findViewById(R.id.llAlarm);
-        LinearLayout llSettings = (LinearLayout) findViewById(R.id.llSettings);
-        LinearLayout llMessages = (LinearLayout) findViewById(R.id.llMessages);
+//        LinearLayout llAlarm = (LinearLayout) findViewById(R.id.llAlarm);
+  //      LinearLayout llSettings = (LinearLayout) findViewById(R.id.llSettings);
+    //    LinearLayout llMessages = (LinearLayout) findViewById(R.id.llMessages);
         LinearLayout llContentMessages = (LinearLayout) findViewById(R.id.llContentMessages);
 
         handler = new Handler() {
@@ -370,7 +370,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
             }
         });
 
-        llCallLogs.setOnClickListener(new View.OnClickListener() {
+      /*  llCallLogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -386,9 +386,9 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 isMessageFragmentActive = false;
                 isContentMessageFragmentActive = false;
             }
-        });
+        });*/
 
-        llMessages.setOnClickListener(new View.OnClickListener() {
+      /*  llMessages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -407,7 +407,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
 
 
         });
-
+*/
         llContentMessages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -473,7 +473,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 isContentMessageFragmentActive = false;
             }
         });
-        llSettings.setOnClickListener(new View.OnClickListener() {
+      /*  llSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getSupportFragmentManager();
@@ -488,7 +488,7 @@ public class MainActivity extends FragmentActivity implements MsgServiceControlI
                 isMessageFragmentActive = false;
                 isContentMessageFragmentActive = false;
             }
-        });
+        });*/
 
     }
 

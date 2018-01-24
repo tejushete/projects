@@ -368,9 +368,9 @@ public class MusicFragment extends Fragment{
             }
 
             if(lastSongIndex == i){
-                list.setBackgroundColor(Color.parseColor("#dddd00"));
+                list.setBackgroundColor(Color.parseColor("#464648"));
             }else{
-                list.setBackgroundColor(Color.parseColor("#eeeeee"));
+                list.setBackgroundColor(Color.parseColor("#2d3e52"));
             }
 
             TextView tvSongName = (TextView) list.findViewById(R.id.tvSongName);

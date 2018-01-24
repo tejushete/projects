@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 
 /**
@@ -49,6 +51,8 @@ public class ContentMessageFragment extends Fragment {
     public ContentMessageFragment() {
         // Required empty public constructor
     }
+
+
 
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -84,12 +88,15 @@ public class ContentMessageFragment extends Fragment {
         }
     }
 
+
     public void getNewMessage(UserTextMessage userTextMessage) {
 
         Log.d("ContentMessageFragment", "msg received " + userTextMessage.getNumber() + ", " + userTextMessage.getMessageBody());
+        String no=userTextMessage.getNumber().replaceAll("\\s+", "");
+
         for (int i = 0; i < mContentMessageList.size(); i++) {
             UserTextMessage listMesg = mContentMessageList.get(i);
-            if (listMesg.getNumber().equals(userTextMessage.getNumber())) {
+            if (listMesg.getNumber().equals(no)) {
                 mContentMessageList.remove(listMesg);
                 break;
             }
@@ -118,6 +125,8 @@ public class ContentMessageFragment extends Fragment {
                 cursor.moveToFirst();
                 do {
                     String address = cursor.getString(1);
+                    address=address.replaceAll("\\s+", "");
+
                     if (address == null || address.isEmpty()) {
                         continue;
                     }

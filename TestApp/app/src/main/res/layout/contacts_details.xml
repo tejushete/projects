@@ -10,29 +10,24 @@
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="First Name"
+        android:textColor="#01f7d6"
         android:layout_marginTop="22dp"
-        android:layout_marginLeft="75dp"
+        android:layout_toRightOf="@+id/iv_photo"
+        android:layout_marginLeft="5dp"
         android:textSize="20dp"
         android:textStyle="bold" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/iv_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:padding="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
-        android:padding="5dp" />
+        android:layout_marginRight="5dp" />
 
-    <TextView
-        android:id="@+id/tvPhoneNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_toRightOf="@+id/iv_photo"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:text="Phone Number"
-        android:visibility="gone"
-        android:layout_below="@+id/tv_firstName" />
+
+
 
 </RelativeLayout>

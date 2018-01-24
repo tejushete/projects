@@ -20,6 +20,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +31,14 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SectionIndexer;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScroller;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +48,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.teju.testapp.R.*;
+import static com.example.teju.testapp.R.id.*;
 
 
 /**
@@ -148,6 +156,8 @@ public class contactsFragment extends Fragment {
 
                         Uri picuri = getPhotoUri(contact_id);
 
+
+
                         final contacts_Items contacts_items;
                         contacts_items = new contacts_Items();
                         contacts_items.setFirstName(name);
@@ -179,19 +189,19 @@ public class contactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+        View view = inflater.inflate(layout.fragment_contacts, container, false);
         mContactsList = new ArrayList<contacts_Items>();
 
-        listView = view.findViewById(R.id.lst_contacts);
+        listView = view.findViewById(lst_contacts);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 final contacts_Items items = mContactsList.get(i);
                 if(getActivity()!=null) {
-
                     Intent intent = new Intent(getActivity(), PhoneListActivity.class);
                     intent.putExtra("ContactId", items.getContact_id());
                     intent.putExtra("ContactName", items.getFirstName());
+                    if(items.getImg()==null)return;
                     intent.putExtra("Image", items.getImg().toString());
                     startActivity(intent);
 
@@ -205,12 +215,16 @@ public class contactsFragment extends Fragment {
         }
         requestPermission();
 
+
         return view;
     }
 
 
-    public class CustomListViewAdapter extends BaseAdapter {
+
+
+    public class CustomListViewAdapter extends BaseAdapter implements SectionIndexer {
         Context mContext;
+
 
         CustomListViewAdapter(Context c) {
             mContext = c;
@@ -232,31 +246,49 @@ public class contactsFragment extends Fragment {
         }
 
         @Override
+        public Object[] getSections() {
+            return new Object[0];
+        }
+
+        @Override
+        public int getPositionForSection(int i) {
+            return 0;
+        }
+
+        @Override
+        public int getSectionForPosition(int i) {
+            return 0;
+        }
+
+        @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View list = view;
 
             final contacts_Items items = mContactsList.get(i);
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+
             if (list == null) {
-                list = inflater.inflate(R.layout.contacts_details, null);
+                list = inflater.inflate(layout.contacts_details, null);
             }
 
-            TextView tv_firstName = list.findViewById(R.id.tv_firstName);
-            final TextView tvPhoneNo = list.findViewById(R.id.tvPhoneNo);
-            final ImageView ivPhoto = (ImageView) list.findViewById(R.id.iv_photo);
+            TextView tv_firstName = list.findViewById(id.tv_firstName);
+           // final TextView tvPhoneNo = list.findViewById(R.id.tvPhoneNo);
+            final ImageView ivPhoto = (ImageView) list.findViewById(iv_photo);
 
             tv_firstName.setText(items.getFirstName());
-            tvPhoneNo.setText(items.getPhoneNumber());
+           // tvPhoneNo.setText(items.getPhoneNumber());
 
             if(getActivity() != null) {
                 Glide.with(getActivity())
                         .load(items.getImg())
-                        .placeholder(R.drawable.blank)
+                        .placeholder(drawable.contact_profile)
                         .into(ivPhoto);
             }
 
             return list;
         }
+
+
     }
 }

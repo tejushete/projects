@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,8 +29,8 @@ import java.util.List;
 public class PhoneListActivity extends Activity {
     ListView listView;
     PhoneListAdapter adapter;
-    int mCount = 5;
     List<String> mPhoneNumberList;
+    String img;
 
 
     @Override
@@ -39,6 +40,7 @@ public class PhoneListActivity extends Activity {
         mPhoneNumberList = new ArrayList<String>();
 
         listView = (ListView) findViewById(R.id.lvPhn_list);
+
         if (PhoneListActivity.this != null) {
             adapter = new PhoneListActivity.PhoneListAdapter(PhoneListActivity.this);
             listView.setAdapter(adapter);
@@ -47,7 +49,7 @@ public class PhoneListActivity extends Activity {
         String contact_id = intent.getExtras().getString("ContactId");
         Log.d("<><>", "id" + contact_id);
         String contactName = intent.getExtras().getString("ContactName");
-        String img = intent.getExtras().getString("Image");
+         img = intent.getExtras().getString("Image");
         Log.d("<><>", "URI" + img);
 
         Uri picsUri = Uri.parse(img);
@@ -59,7 +61,7 @@ public class PhoneListActivity extends Activity {
 
         Glide.with(PhoneListActivity.this)
                 .load(picsUri)
-                .placeholder(R.drawable.blank)
+                .placeholder(R.drawable.phone_list_profile)
                 .into(tvProfilePic);
 
 
@@ -72,35 +74,22 @@ public class PhoneListActivity extends Activity {
         while (cursor.moveToNext()) {
 
             String no = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            no=no.replaceAll("\\s+", "");
 
             for (int i=0;i<mPhoneNumberList.size();i++){
-                if(no.equals(mPhoneNumberList.get(i))){
-
+                String li = mPhoneNumberList.get(i);
+                if(no.equals(li)){
+                     mPhoneNumberList.remove(li);
                 }
 
             }
 
-            mPhoneNumberList.add(no);
+            mPhoneNumberList.add(0,no);
             adapter.notifyDataSetChanged();
         }
-
         cursor.close();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String PhoneData = mPhoneNumberList.get(i);
 
-                Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:"+PhoneData));
-                if (ActivityCompat.checkSelfPermission(PhoneListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(PhoneListActivity.this, new String[]{
-                            Manifest.permission.CALL_PHONE
-                    }, 0);
-                    return;
-                }
-                startActivity(callIntent);
-          }
-      });
+
 
     }
 
@@ -132,7 +121,7 @@ public class PhoneListActivity extends Activity {
 
             View list = view;
 
-              String PhoneData = mPhoneNumberList.get(i);
+              final String PhoneData = mPhoneNumberList.get(i);
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -141,9 +130,33 @@ public class PhoneListActivity extends Activity {
             }
             TextView tvPhoneNumbers = (TextView)list.findViewById(R.id.tvPhoneNumbers);
             tvPhoneNumbers.setText(PhoneData);
+            ImageView ivContact_msg = (ImageView)list.findViewById(R.id.ivContact_msg);
+            RelativeLayout rlCallView = (RelativeLayout)list.findViewById(R.id.rlCallView);
 
+            rlCallView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    callIntent.setData(Uri.parse("tel:"+PhoneData));
+                    if (ActivityCompat.checkSelfPermission(PhoneListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(PhoneListActivity.this, new String[]{
+                                Manifest.permission.CALL_PHONE
+                        }, 0);
+                        return;
+                    }
+                    startActivity(callIntent);
+                }
+            });
 
-
+            ivContact_msg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(PhoneListActivity.this,SecondContentMessageActivity.class);
+                    intent.putExtra("contentNumber",PhoneData);
+                    intent.putExtra("Image",img);
+                    startActivity(intent);
+                }
+            });
 
             return list;
         }

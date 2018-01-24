@@ -89,6 +89,14 @@ public class SendMessageContentByBtn extends Activity {
 
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         etTypeMessage = (EditText) findViewById(R.id.etTypeMessage);
+        ImageView ivBack = (ImageView)findViewById(R.id.ivBack);
+
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         ImageView ivSendMessage = (ImageView) findViewById(R.id.ivSendMessage);
         ivSendMessage.setOnClickListener(new View.OnClickListener() {

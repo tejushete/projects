@@ -2,14 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#2d3e52"
     tools:context="com.example.teju.testapp.ContentMessageFragment">
 
     <RelativeLayout
         android:id="@+id/rlMessageContentTitle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#7d6eb4">
+        android:background="#e6065c">
 
         <ImageView
             android:layout_width="40dp"
