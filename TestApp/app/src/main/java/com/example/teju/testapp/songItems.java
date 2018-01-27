@@ -11,6 +11,15 @@ public class songItems {
     private String title;
     private String artist;
     private Uri uri;
+    private Uri thumbUri;
+
+    public Uri getThumbUri() {
+        return thumbUri;
+    }
+
+    public void setThumbUri(Uri thumbUri) {
+        this.thumbUri = thumbUri;
+    }
 
     public Uri getUri() {
         return uri;

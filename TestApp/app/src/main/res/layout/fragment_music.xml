@@ -8,80 +8,164 @@
     <ListView
         android:id="@+id/lvSong_list"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/rlTitleView"
-        android:background="#2d3e52"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/rlProgressBarView"
-        android:layout_height="wrap_content" >
-    </ListView>
+        android:layout_below="@+id/rlTitleView"
+        android:background="#2d3e52"></ListView>
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
         android:id="@+id/rlProgressBarView"
-        android:background="#c703f9"
-        android:layout_height="90dp">
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:background="#ee2d3e52">
 
         <RelativeLayout
+            android:id="@+id/rlCurrSongInfo"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_height="40dp"
-            android:id="@+id/vwMusicButtons">
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/ivPlay"
-                    android:visibility="visible"
-                    android:layout_centerInParent="true"
-                    android:clickable="true"
-                    android:src="@drawable/play"/>
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/ivPause"
-                    android:clickable="true"
-                    android:visibility="gone"
-                    android:src="@drawable/pause"/>
+            android:layout_height="63dp">
+
+            <ImageView
+                android:id="@+id/ivCurrSongsPic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="4dp"
+                android:src="@drawable/music_profile" />
+
+            <TextView
+                android:id="@+id/tvCurrSongTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@id/ivCurrSongsPic"
+                android:singleLine="true"
+                android:text="Song Title"
+                android:textColor="#ffffff"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_below="@id/ivCurrSongsPic"
+                android:layout_marginLeft="5dp"
+                android:text="00:00"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_below="@id/ivCurrSongsPic"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="6dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:layout_toLeftOf="@id/tvTotalTime"
+                android:layout_toRightOf="@id/tvCurrentTime"
+                android:max="100"
+                android:paddingLeft="0dp"
+                android:progress="80"
+                android:progressDrawable="@drawable/seek_bar_style"
+                android:thumbOffset="100000dp" />
+
+            <TextView
+                android:id="@+id/tvTotalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/ivCurrSongsPic"
+                android:layout_marginRight="5dp"
+                android:text="00:00"
+                android:textColor="#ffffff"
+                android:textSize="14dp" />
+
         </RelativeLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:01"
-            android:id="@+id/tvCurrentTime"
-            android:layout_below="@id/vwMusicButtons"
-            android:layout_marginLeft="5dp"
-            android:textSize="20dp"
-            android:textColor="#000000"/>
-        <SeekBar
-            android:id="@+id/seekBar"
+
+        <RelativeLayout
+            android:id="@+id/rlCurrSongControlButtons"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:layout_toRightOf="@id/tvCurrentTime"
-            android:layout_toLeftOf="@id/tvTotalTime"
-            android:layout_below="@id/vwMusicButtons"
-            android:progress="80"
-            android:paddingLeft="0dp"
-            android:max="100"
-            android:layout_marginLeft="0dp"
-            android:thumbOffset="0dp"
-            android:layout_marginTop="5dp"
-            android:progressDrawable="@drawable/seek_bar_style"
-            android:thumb="@null"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:01"
-            android:id="@+id/tvTotalTime"
-            android:layout_below="@id/vwMusicButtons"
-            android:textSize="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_below="@id/rlCurrSongInfo">
+
+            <ImageView
+                android:id="@+id/ivPlay"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:layout_marginRight="5dp"
+                android:clickable="true"
+                android:src="@drawable/play2"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ivPause"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="2dp"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:clickable="true"
+                android:src="@drawable/pause2"
+                android:visibility="gone" />
 
 
-            android:textColor="#000000"/>
+            <ImageView
+                android:id="@+id/ivPrev"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:padding="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@id/ivPlay"
+                android:clickable="true"
+                android:src="@drawable/prev2"
+                android:visibility="visible" />
 
+            <ImageView
+                android:id="@+id/ivNext"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:padding="2dp"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@id/ivPlay"
+                android:clickable="true"
+                android:src="@drawable/next2"
+                android:visibility="visible" />
 
+            <ImageView
+                android:id="@+id/ivStop"
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:padding="2dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/ivNext"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:src="@drawable/stop2"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#66ffffff"></RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

@@ -178,21 +178,18 @@ public class ContentMessageFragment extends Fragment {
                         }
                     }
 
-
                 } while (cursor.moveToNext());
 
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-
-
+                if(getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
             }
         }).start();
-
-
     }
 
     @Override

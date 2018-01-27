@@ -1,73 +1,48 @@
 package com.example.teju.testapp;
 
-
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SectionIndexer;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
-import com.simplecityapps.recyclerview_fastscroll.views.FastScroller;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.teju.testapp.R.*;
 import static com.example.teju.testapp.R.id.*;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class contactsFragment extends Fragment {
-    ListView listView;
+    FastScrollRecyclerView listView;
     CustomListViewAdapter mAdapter;
-    int mCount = 0;
     Cursor cursor;
     ArrayList<contacts_Items> mContactsList;
-
 
     public contactsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -98,7 +73,6 @@ public class contactsFragment extends Fragment {
                     new String[]{Manifest.permission.READ_CONTACTS},
                     0);
         }
-
     }
 
     public Uri getPhotoUri(String id) {
@@ -140,44 +114,39 @@ public class contactsFragment extends Fragment {
                 String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
                 String PHOTO = ContactsContract.CommonDataKinds.Photo.PHOTO;
 
-                String sorting = ContactsContract.Contacts.DISPLAY_NAME + " ASC";
+                String sorting = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE NOCASE ASC";
                 cursor = getActivity().getContentResolver()
                         .query(CONTENT_URI,
                                 null, null, null, sorting);
-                Log.d("<>", "<>");
                 Log.d("<>", cursor.getCount() + "");
                 if (cursor.getCount() > 0) {
                     while (cursor.moveToNext()) {
 
                         String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
-                        Log.d("<>", name);
 
                         String contact_id = cursor.getString(cursor.getColumnIndex(ID));
 
                         Uri picuri = getPhotoUri(contact_id);
 
-
-
                         final contacts_Items contacts_items;
                         contacts_items = new contacts_Items();
                         contacts_items.setFirstName(name);
                         contacts_items.setContact_id(contact_id);
-                        Log.d("<><><>", "name" + contacts_items.getFirstName());
+                        Log.d("<><><>", "name " + contacts_items.getFirstName());
 
-                        Log.d("<<<>>>", picuri+"");
+                        Log.d("<<<>>>", picuri + "");
                         contacts_items.setImg(picuri);
 
-                     if(getActivity()!=null) {
-                         getActivity().runOnUiThread(new Runnable() {
-                             @Override
-                             public void run() {
-                                 mContactsList.add(contacts_items);
-                                 mAdapter.notifyDataSetChanged();
-                             }
-                         });
-                     }
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mContactsList.add(contacts_items);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
                     }
-
                 }
             }
 
@@ -185,6 +154,22 @@ public class contactsFragment extends Fragment {
         }).start();
     }
 
+    public void setRecyclerViewLayoutManager(RecyclerView recyclerView) {
+        int scrollPosition = 0;
+
+        // If a layout manager has already been set, get current scroll position.
+        if (recyclerView.getLayoutManager() != null) {
+            scrollPosition =
+                    ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        }
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.scrollToPosition(scrollPosition);
+    }
+
+    @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -193,102 +178,110 @@ public class contactsFragment extends Fragment {
         mContactsList = new ArrayList<contacts_Items>();
 
         listView = view.findViewById(lst_contacts);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final contacts_Items items = mContactsList.get(i);
-                if(getActivity()!=null) {
-                    Intent intent = new Intent(getActivity(), PhoneListActivity.class);
-                    intent.putExtra("ContactId", items.getContact_id());
-                    intent.putExtra("ContactName", items.getFirstName());
-                    if(items.getImg()==null)return;
-                    intent.putExtra("Image", items.getImg().toString());
-                    startActivity(intent);
 
-                }
-
-            }
-        });
         if (getActivity() != null) {
             mAdapter = new contactsFragment.CustomListViewAdapter(this.getActivity());
             listView.setAdapter(mAdapter);
         }
         requestPermission();
 
+        setRecyclerViewLayoutManager(listView);
 
         return view;
     }
 
+    public class CustomListViewAdapter extends RecyclerView.Adapter implements FastScrollRecyclerView.SectionedAdapter,
+            FastScrollRecyclerView.MeasurableAdapter {
 
-
-
-    public class CustomListViewAdapter extends BaseAdapter implements SectionIndexer {
         Context mContext;
-
 
         CustomListViewAdapter(Context c) {
             mContext = c;
         }
 
         @Override
-        public int getCount() {
-            return mContactsList.size();
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup v, int viewType) {
+
+            View row = LayoutInflater.from(v.getContext()).inflate(R.layout.contacts_details, v, false);
+
+            return new MyViewHolder(row);
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
-        }
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            final contacts_Items items = mContactsList.get(position);
 
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
+            ((MyViewHolder) holder).getTvfirstName().setText(items.getFirstName());
 
-        @Override
-        public Object[] getSections() {
-            return new Object[0];
-        }
-
-        @Override
-        public int getPositionForSection(int i) {
-            return 0;
-        }
-
-        @Override
-        public int getSectionForPosition(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View list = view;
-
-            final contacts_Items items = mContactsList.get(i);
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
-            if (list == null) {
-                list = inflater.inflate(layout.contacts_details, null);
-            }
-
-            TextView tv_firstName = list.findViewById(id.tv_firstName);
-           // final TextView tvPhoneNo = list.findViewById(R.id.tvPhoneNo);
-            final ImageView ivPhoto = (ImageView) list.findViewById(iv_photo);
-
-            tv_firstName.setText(items.getFirstName());
-           // tvPhoneNo.setText(items.getPhoneNumber());
-
-            if(getActivity() != null) {
+            if (getActivity() != null) {
                 Glide.with(getActivity())
                         .load(items.getImg())
                         .placeholder(drawable.contact_profile)
-                        .into(ivPhoto);
+                        .into(((MyViewHolder) holder).getIvPhoto());
             }
 
-            return list;
+            ((MyViewHolder) holder).setRootViewRowPositionTag(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mContactsList.size();
         }
 
 
+        @Override
+        public int getViewTypeHeight(RecyclerView recyclerView, int viewType) {
+            return 55;
+        }
+
+        @NonNull
+        @Override
+        public String getSectionName(int position) {
+            final contacts_Items items = mContactsList.get(position);
+            String contactName = items.getFirstName();
+            return (""+contactName.charAt(0)).toUpperCase();
+        }
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView tv_firstName;
+        ImageView ivPhoto;
+        View row;
+
+        public TextView getTvfirstName() {
+            return tv_firstName;
+        }
+
+        public ImageView getIvPhoto() {
+            return ivPhoto;
+        }
+
+        public void setRootViewRowPositionTag(int position){
+            row.setTag(position);
+        }
+
+        public MyViewHolder(View v) {
+            super(v);
+            // Define click listener for the ViewHolder's View.
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = (int)v.getTag();
+                    final contacts_Items items = mContactsList.get(position);
+                    if(getActivity()!=null) {
+                    Intent intent = new Intent(getActivity(), PhoneListActivity.class);
+                    intent.putExtra("ContactId", items.getContact_id());
+                    intent.putExtra("ContactName", items.getFirstName());
+                    if(items.getImg()==null)return;
+                    intent.putExtra("Image", items.getImg().toString());
+                    startActivity(intent);
+                }
+                }
+            });
+            tv_firstName = (TextView) v.findViewById(R.id.tv_firstName);
+            ivPhoto = (ImageView) v.findViewById(iv_photo);
+
+            row = v;
+        }
     }
 }
