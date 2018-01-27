@@ -86,15 +86,11 @@ public class MessageFragment extends Fragment {
 
         mMessageList = MainActivity.mydb.getLastRecordOfEveryNumber();
 
-
-
         return view;
     }
 
     public void recievedNewMessage(UserTextMessage msg)  {
         Log.d("MessageFragment", "msg received "+msg.getNumber()+", "+msg.getMessageBody());
-
-
 
         for(int i=0;i<mMessageList.size();i++){
             UserTextMessage lMsg = mMessageList.get(i);
@@ -104,12 +100,9 @@ public class MessageFragment extends Fragment {
             }
         }
 
-
         mMessageList.add(0, msg);
         adapter.notifyDataSetChanged();
     }
-
-
 
     public class MessageFragmentAdapter extends BaseAdapter {
         Context mContext;

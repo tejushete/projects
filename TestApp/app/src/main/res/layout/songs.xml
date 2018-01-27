@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
+        android:id="@+id/ivMusic"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:id="@+id/ivMusic"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/song"
-        android:layout_marginLeft="10dp"/>
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/song" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Song Name"
-        android:textStyle="bold"
-        android:textSize="18dp"
-        android:layout_toRightOf="@+id/ivMusic"
         android:id="@+id/tvSongName"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
-        android:textColor="#01f7d6"
-        />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Artist Name"
-        android:textStyle="italic"
-        android:textSize="12dp"
-        android:id="@+id/tvArtistName"
-        android:layout_toRightOf="@+id/ivMusic"
-        android:layout_below="@+id/tvSongName"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/ivMusic"
+        android:text="Song Name"
         android:textColor="#01f7d6"
-        />
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
-
+    <TextView
+        android:id="@+id/tvArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvSongName"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/ivMusic"
+        android:text="Artist Name"
+        android:textColor="#01f7d6"
+        android:textSize="12dp"
+        android:textStyle="italic" />
 
 </RelativeLayout>

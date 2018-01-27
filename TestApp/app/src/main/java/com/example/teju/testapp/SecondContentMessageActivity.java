@@ -3,7 +3,6 @@ package com.example.teju.testapp;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -27,16 +25,10 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 public class SecondContentMessageActivity extends Activity implements AdapterView.OnItemClickListener {
@@ -81,7 +73,6 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
             userTextMessage.setType("2");
             userTextMessage.setReadStatus(true);
 
-
             utility uti = new utility();
             uti.addMessageToUri(SecondContentMessageActivity.this.getContentResolver(),
                     Telephony.Sms.Sent.CONTENT_URI,
@@ -100,7 +91,6 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
 
                 }
             });
-
 
             Intent intent = new Intent();
             intent.putExtra("message",message);
@@ -125,7 +115,7 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
                         new String[]{"_id", "address", "date", "body", "type"},
                         "address='" + contentNumber.trim() + "'",
                         null,
-                        "date ASC");
+                        "date COLLATE NOCASE ASC");
                 cursor.moveToFirst();
 
                 if(cursor.getCount() == 0) return;
@@ -134,7 +124,7 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
                     String message = cursor.getString(3);
                     String id = cursor.getString(0);
                     String type = cursor.getString(4);
-                    Log.d("<><><>", "message " + message);
+                    Log.d("<><><>", "message: " + message);
 
                     final UserTextMessage textMessage = new UserTextMessage();
                     textMessage.setMessageBody(message);
@@ -145,10 +135,8 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
                             mSelectedList.add(textMessage);
                             adapter.notifyDataSetChanged();
-
                         }
                     });
                 } while (cursor.moveToNext());
@@ -189,8 +177,6 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
              picsUri = Uri.parse(img);
          }
 
-
-
         if(value==null){
             return;
         }else{
@@ -198,20 +184,17 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
             mydb.updateNotificationDetails(notification);
         }
 
-
         Log.d("<><><><>", "ContentNumber" + contentNumber);
 
         etSendMessage.setText(testAppSharedPreferences.getDraftMessage(contentNumber));
         TextView tvTitlePhoneNumber = (TextView) findViewById(R.id.tvTitlePhoneNumber);
         tvTitlePhoneNumber.setText(contentNumber);
 
-
         getSelectedNumberMessages();
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
     }
 
     public class SecondContentMessageAdapter extends BaseAdapter {
@@ -239,13 +222,13 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View list = view;
-             UserTextMessage textMessage = mSelectedList.get(i);
-
+            UserTextMessage textMessage = mSelectedList.get(i);
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (list == null) {
                 list = inflater.inflate(R.layout.receive_send, null);
             }
+
             if(textMessage.getType().equals("1")) {
                 TextView tvReceive_Message_Body = (TextView) list.findViewById(R.id.tvReceive_Message_Body);
                 TextView tvSend_Message_Body = (TextView) list.findViewById(R.id.tvSend_Message_Body);
@@ -272,12 +255,10 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
                 tvReceive_Message_Body.setVisibility(View.INVISIBLE);
                 ivReceiveMsg.setVisibility(View.INVISIBLE);
                 ivSendMsg.setVisibility(View.VISIBLE);
-
             }
 
             return list;
         }
-
     }
 
     @Override
@@ -306,20 +287,19 @@ public class SecondContentMessageActivity extends Activity implements AdapterVie
         if(message!=null&& !message.isEmpty()){
             testAppSharedPreferences.setDraftMessage(contentNumber,message);
             Intent intent = new Intent();
-            Log.d("<><><>","messageDraft"+message);
             intent.putExtra("message",message);
             intent.putExtra("number",contentNumber);
             setResult(RESULT_OK,intent);
+
         }else{
 
             if(mSelectedList.size() != 0) {
                 UserTextMessage msg = mSelectedList.get(mSelectedList.size() - 1);
                 String message = msg.getMessageBody();
                 testAppSharedPreferences.setDraftMessage(contentNumber, "");
+
                 Intent intent = new Intent();
                 Log.d("<><><>", "message" + message);
-
-
                 intent.putExtra("message", message);
                 intent.putExtra("number", contentNumber);
                 setResult(RESULT_OK, intent);

@@ -134,9 +134,7 @@ public class MusicFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -47,6 +47,7 @@ public class contacts_Items {
     }
 
     public Uri getImg() {
+        if(img == null) return Uri.EMPTY;
         return img;
     }
 

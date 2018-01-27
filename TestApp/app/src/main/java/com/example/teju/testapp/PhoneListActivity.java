@@ -32,7 +32,6 @@ public class PhoneListActivity extends Activity {
     List<String> mPhoneNumberList;
     String img;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +44,12 @@ public class PhoneListActivity extends Activity {
             adapter = new PhoneListActivity.PhoneListAdapter(PhoneListActivity.this);
             listView.setAdapter(adapter);
         }
+
         Intent intent = getIntent();
         String contact_id = intent.getExtras().getString("ContactId");
         Log.d("<><>", "id" + contact_id);
         String contactName = intent.getExtras().getString("ContactName");
-         img = intent.getExtras().getString("Image");
+        img = intent.getExtras().getString("Image");
         Log.d("<><>", "URI" + img);
 
         Uri picsUri = Uri.parse(img);
@@ -74,21 +74,20 @@ public class PhoneListActivity extends Activity {
         while (cursor.moveToNext()) {
 
             String no = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            no=no.replaceAll("\\s+", "");
+            no = no.replaceAll("\\s+", "");
 
-            for (int i=0;i<mPhoneNumberList.size();i++){
+            for (int i = 0; i < mPhoneNumberList.size(); i++) {
                 String li = mPhoneNumberList.get(i);
-                if(no.equals(li)){
-                     mPhoneNumberList.remove(li);
+                if (no.equals(li)) {
+                    mPhoneNumberList.remove(li);
                 }
 
             }
 
-            mPhoneNumberList.add(0,no);
+            mPhoneNumberList.add(0, no);
             adapter.notifyDataSetChanged();
         }
         cursor.close();
-
 
 
     }
@@ -121,23 +120,23 @@ public class PhoneListActivity extends Activity {
 
             View list = view;
 
-              final String PhoneData = mPhoneNumberList.get(i);
+            final String PhoneData = mPhoneNumberList.get(i);
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             if (list == null) {
                 list = inflater.inflate(R.layout.phone_numbers_list, null);
             }
-            TextView tvPhoneNumbers = (TextView)list.findViewById(R.id.tvPhoneNumbers);
+            TextView tvPhoneNumbers = (TextView) list.findViewById(R.id.tvPhoneNumbers);
             tvPhoneNumbers.setText(PhoneData);
-            ImageView ivContact_msg = (ImageView)list.findViewById(R.id.ivContact_msg);
-            RelativeLayout rlCallView = (RelativeLayout)list.findViewById(R.id.rlCallView);
+            ImageView ivContact_msg = (ImageView) list.findViewById(R.id.ivContact_msg);
+            RelativeLayout rlCallView = (RelativeLayout) list.findViewById(R.id.rlCallView);
 
             rlCallView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:"+PhoneData));
+                    callIntent.setData(Uri.parse("tel:" + PhoneData));
                     if (ActivityCompat.checkSelfPermission(PhoneListActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(PhoneListActivity.this, new String[]{
                                 Manifest.permission.CALL_PHONE
@@ -151,14 +150,15 @@ public class PhoneListActivity extends Activity {
             ivContact_msg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(PhoneListActivity.this,SecondContentMessageActivity.class);
-                    intent.putExtra("contentNumber",PhoneData);
-                    intent.putExtra("Image",img);
+                    Intent intent = new Intent(PhoneListActivity.this, SecondContentMessageActivity.class);
+                    intent.putExtra("contentNumber", PhoneData);
+                    intent.putExtra("Image", img);
                     startActivity(intent);
                 }
             });
 
             return list;
         }
-    }}
+    }
+}
 

@@ -120,7 +120,7 @@ public class ContentMessageFragment extends Fragment {
                         new String[]{"_id", "address", "date", "body", "read", "type"},
                         null,
                         null,
-                        "date DESC");
+                        "date COLLATE NOCASE DESC");
 
                 cursor.moveToFirst();
                 do {
@@ -158,8 +158,16 @@ public class ContentMessageFragment extends Fragment {
 
                     if (mMap.get(userTextMessage.getNumber()) == null) {
                         Log.d("<><><>", "Address" + address);
-//                        mMap.put(userTextMessage.getNumber(), userTextMessage.getMessageBody());
-                        mContentMessageList.add(userTextMessage);
+
+                        if(getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mContentMessageList.add(userTextMessage);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
                         Integer array[] = new Integer[2];
                         array[1] = 0;
                         if (userTextMessage.getReadStatus() == true) {
@@ -180,14 +188,7 @@ public class ContentMessageFragment extends Fragment {
 
                 } while (cursor.moveToNext());
 
-                if(getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                }
+
             }
         }).start();
     }

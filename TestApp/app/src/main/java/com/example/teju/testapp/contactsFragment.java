@@ -20,7 +20,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,6 +42,8 @@ public class contactsFragment extends Fragment {
     CustomListViewAdapter mAdapter;
     Cursor cursor;
     ArrayList<contacts_Items> mContactsList;
+
+    boolean isContactsScreenSelected = true;
 
     public contactsFragment() {
         // Required empty public constructor
@@ -117,21 +122,27 @@ public class contactsFragment extends Fragment {
                 String sorting = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE NOCASE ASC";
                 cursor = getActivity().getContentResolver()
                         .query(CONTENT_URI,
-                                null, null, null, sorting);
+                                null,
+                                ContactsContract.Contacts.HAS_PHONE_NUMBER + " > 0",
+                                null,
+                                sorting);
+
+                if (cursor == null) return;
+
                 Log.d("<>", cursor.getCount() + "");
                 if (cursor.getCount() > 0) {
-                    while (cursor.moveToNext()) {
+                    cursor.moveToFirst();
+                    do {
 
                         String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
-
                         String contact_id = cursor.getString(cursor.getColumnIndex(ID));
-
                         Uri picuri = getPhotoUri(contact_id);
 
                         final contacts_Items contacts_items;
                         contacts_items = new contacts_Items();
                         contacts_items.setFirstName(name);
                         contacts_items.setContact_id(contact_id);
+
                         Log.d("<><><>", "name " + contacts_items.getFirstName());
 
                         Log.d("<<<>>>", picuri + "");
@@ -146,11 +157,9 @@ public class contactsFragment extends Fragment {
                                 }
                             });
                         }
-                    }
+                    } while (cursor.moveToNext());
                 }
             }
-
-
         }).start();
     }
 
@@ -174,20 +183,68 @@ public class contactsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(layout.fragment_contacts, container, false);
+        final View fr_view = inflater.inflate(layout.fragment_contacts, container, false);
         mContactsList = new ArrayList<contacts_Items>();
 
-        listView = view.findViewById(lst_contacts);
+        listView = fr_view.findViewById(lst_contacts);
 
         if (getActivity() != null) {
             mAdapter = new contactsFragment.CustomListViewAdapter(this.getActivity());
             listView.setAdapter(mAdapter);
         }
+
         requestPermission();
 
         setRecyclerViewLayoutManager(listView);
 
-        return view;
+        LinearLayout llContactsOption, llCallLogsOption;
+        llContactsOption = fr_view.findViewById(R.id.llContactsOption);
+        llCallLogsOption = fr_view.findViewById(R.id.llCallLogsOption);
+
+        llContactsOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (isContactsScreenSelected == true) return;
+                isContactsScreenSelected = true;
+
+                View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
+                View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
+
+                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
+                Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
+
+                viContactsScreenSelected.setVisibility(View.VISIBLE);
+                viCallLogsScreenSelected.setVisibility(View.GONE);
+
+                viContactsScreenSelected.startAnimation(fadeInAnim);
+                viCallLogsScreenSelected.startAnimation(fadeOutAnim);
+
+            }
+        });
+
+        llCallLogsOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (isContactsScreenSelected == false) return;
+                isContactsScreenSelected = false;
+
+                View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
+                View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
+
+                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
+                Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
+
+                viContactsScreenSelected.setVisibility(View.GONE);
+                viCallLogsScreenSelected.setVisibility(View.VISIBLE);
+
+                viContactsScreenSelected.startAnimation(fadeOutAnim);
+                viCallLogsScreenSelected.startAnimation(fadeInAnim);
+            }
+        });
+
+        return fr_view;
     }
 
     public class CustomListViewAdapter extends RecyclerView.Adapter implements FastScrollRecyclerView.SectionedAdapter,
@@ -203,6 +260,24 @@ public class contactsFragment extends Fragment {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup v, int viewType) {
 
             View row = LayoutInflater.from(v.getContext()).inflate(R.layout.contacts_details, v, false);
+
+            Log.d("HOLDER", "onCreateViewHolder");
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = (int) v.getTag();
+                    Log.d("<>HOLDER", position + "");
+                    final contacts_Items items = mContactsList.get(position);
+                    if (getActivity() != null) {
+                        Intent intent = new Intent(getActivity(), PhoneListActivity.class);
+                        intent.putExtra("ContactId", items.getContact_id());
+                        intent.putExtra("ContactName", items.getFirstName());
+                        intent.putExtra("Image", items.getImg().toString());
+
+                        startActivity(intent);
+                    }
+                }
+            });
 
             return new MyViewHolder(row);
         }
@@ -239,7 +314,7 @@ public class contactsFragment extends Fragment {
         public String getSectionName(int position) {
             final contacts_Items items = mContactsList.get(position);
             String contactName = items.getFirstName();
-            return (""+contactName.charAt(0)).toUpperCase();
+            return ("" + contactName.charAt(0)).toUpperCase();
         }
     }
 
@@ -256,28 +331,14 @@ public class contactsFragment extends Fragment {
             return ivPhoto;
         }
 
-        public void setRootViewRowPositionTag(int position){
+        public void setRootViewRowPositionTag(int position) {
             row.setTag(position);
         }
 
         public MyViewHolder(View v) {
             super(v);
             // Define click listener for the ViewHolder's View.
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = (int)v.getTag();
-                    final contacts_Items items = mContactsList.get(position);
-                    if(getActivity()!=null) {
-                    Intent intent = new Intent(getActivity(), PhoneListActivity.class);
-                    intent.putExtra("ContactId", items.getContact_id());
-                    intent.putExtra("ContactName", items.getFirstName());
-                    if(items.getImg()==null)return;
-                    intent.putExtra("Image", items.getImg().toString());
-                    startActivity(intent);
-                }
-                }
-            });
+
             tv_firstName = (TextView) v.findViewById(R.id.tv_firstName);
             ivPhoto = (ImageView) v.findViewById(iv_photo);
 
