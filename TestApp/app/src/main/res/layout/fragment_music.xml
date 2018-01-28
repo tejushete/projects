@@ -2,16 +2,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.teju.testapp.MusicFragment">
 
-    <ListView
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         android:id="@+id/lvSong_list"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#2d3e52"
+        app:fastScrollAutoHide="true"
+        app:fastScrollAutoHideDelay="1500"
+        app:fastScrollPopupBackgroundSize="88dp"
+        app:fastScrollPopupBgColor="@color/colorAccent"
+        app:fastScrollPopupPosition="adjacent"
+        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+        app:fastScrollPopupTextSize="44sp"
+        app:fastScrollThumbColor="@color/colorAccent"
+        tools:listitem="@layout/songs"
         android:layout_above="@+id/rlProgressBarView"
-        android:layout_below="@+id/rlTitleView"
-        android:background="#2d3e52"></ListView>
+
+        />
 
     <RelativeLayout
         android:id="@+id/rlProgressBarView"

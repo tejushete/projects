@@ -18,6 +18,8 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.MediaStoreSignature;
 import com.bumptech.glide.signature.StringSignature;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +51,7 @@ import wseemann.media.FFmpegMediaMetadataRetriever;
  * A simple {@link Fragment} subclass.
  */
 public class MusicFragment extends Fragment {
-    ListView listView;
+    FastScrollRecyclerView listView;
     MusicFragmentAdapter adapter;
     SeekBar seek_bar;
     boolean isPaused = false;
@@ -250,6 +253,23 @@ public class MusicFragment extends Fragment {
         }
     };
 
+
+    public void setRecyclerViewLayoutManager(RecyclerView recyclerView) {
+        int scrollPosition = 0;
+
+        // If a layout manager has already been set, get current scroll position.
+        if (recyclerView.getLayoutManager() != null) {
+            scrollPosition =
+                    ((LinearLayoutManager) recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+        }
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.scrollToPosition(scrollPosition);
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -268,26 +288,12 @@ public class MusicFragment extends Fragment {
             seek_bar.setEnabled(false);
         }
 
-        listView = (ListView) frview.findViewById(R.id.lvSong_list);
+        listView = frview.findViewById(R.id.lvSong_list);
         if (getActivity() != null) {
             adapter = new MusicFragment.MusicFragmentAdapter(this.getActivity());
             listView.setAdapter(adapter);
         }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                songItems items = mSongsList.get(i);
-                lastSongIndex = i;
-                playSong(items);
 
-                final ImageView ivPause = frview.findViewById(R.id.ivPause);
-                final ImageView ivPlay = frview.findViewById(R.id.ivPlay);
-
-                ivPause.setVisibility(View.VISIBLE);
-                ivPlay.setVisibility(View.INVISIBLE);
-
-            }
-        });
 
         final ImageView ivPause = frview.findViewById(R.id.ivPause);
         final ImageView ivPlay = frview.findViewById(R.id.ivPlay);
@@ -346,12 +352,13 @@ public class MusicFragment extends Fragment {
         });
 
         requestPermission();
+        setRecyclerViewLayoutManager(listView);
 
         return frview;
     }
 
 
-    public class MusicFragmentAdapter extends BaseAdapter {
+    public class MusicFragmentAdapter extends RecyclerView.Adapter implements FastScrollRecyclerView.SectionedAdapter, FastScrollRecyclerView.MeasurableAdapter {
         Context mContext;
 
         MusicFragmentAdapter(Context c) {
@@ -359,52 +366,110 @@ public class MusicFragment extends Fragment {
         }
 
         @Override
-        public int getCount() {
-            return mSongsList.size();
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup v, int viewType) {
+            View row = LayoutInflater.from(v.getContext()).inflate(R.layout.songs, v, false);
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = (int) v.getTag();
+                    songItems items = mSongsList.get(position);
+                    lastSongIndex = position;
+                    playSong(items);
+
+                    final ImageView ivPause = frview.findViewById(R.id.ivPause);
+                    final ImageView ivPlay = frview.findViewById(R.id.ivPlay);
+
+                    ivPause.setVisibility(View.VISIBLE);
+                    ivPlay.setVisibility(View.INVISIBLE);
+                }
+            });
+
+            return new myViewHolder(row);
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
-        }
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            songItems items = mSongsList.get(position);
 
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            View list = view;
-            songItems items = mSongsList.get(i);
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            if (list == null) {
-                list = inflater.inflate(R.layout.songs, null);
-            }
-
-            if (lastSongIndex == i) {
-                list.setBackgroundColor(Color.parseColor("#464648"));
-            } else {
-                list.setBackgroundColor(Color.parseColor("#2d3e52"));
-            }
-
-            TextView tvSongName = (TextView) list.findViewById(R.id.tvSongName);
-            TextView tvArtistName = (TextView) list.findViewById(R.id.tvArtistName);
-            ImageView ivMusic = (ImageView) list.findViewById(R.id.ivMusic);
-
-            tvSongName.setText(items.getTitle());
-            tvArtistName.setText(items.getArtist());
+            ((myViewHolder) holder).getTvSongName().setText(items.getTitle());
+            ((myViewHolder) holder).getTvArtistName().setText(items.getArtist());
 
             if (getActivity() != null) {
                 Glide.with(getActivity())
                         .load(items.getThumbUri())
                         .placeholder(R.drawable.song)
                         .override(100, 100)
-                        .into(ivMusic);
+                        .into(((myViewHolder) holder).getIvMusic());
             }
 
-            return list;
+            if (lastSongIndex == position) {
+                ((myViewHolder) holder).setBackgroundColor("#464648");
+            } else {
+                ((myViewHolder) holder).setBackgroundColor("#2d3e52");
+            }
+
+            ((myViewHolder) holder).setRootViewPositionTag(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mSongsList.size();
+        }
+
+        @Override
+        public int getViewTypeHeight(RecyclerView recyclerView, int viewType) {
+            return 55;
+        }
+
+        @NonNull
+        @Override
+        public String getSectionName(int position) {
+            songItems items = mSongsList.get(position);
+            String songName = items.getTitle();
+            return ("" + songName.charAt(0)).toUpperCase();
+        }
+    }
+
+    public class myViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tvSongName;
+        private TextView tvArtistName;
+        private ImageView ivMusic;
+        private View row;
+
+        public View getRow(){
+            return row;
+        }
+
+        public TextView getTvSongName() {
+            return tvSongName;
+        }
+
+        public TextView getTvArtistName() {
+            return tvArtistName;
+        }
+
+        public void setBackgroundColor(String color) {
+            row.setBackgroundColor(Color.parseColor(color));
+        }
+
+        public ImageView getIvMusic() {
+            return ivMusic;
+        }
+
+        public void setRootViewPositionTag(int position) {
+            row.setTag(position);
+        }
+
+
+        public myViewHolder(View v) {
+            super(v);
+
+            tvSongName = (TextView) v.findViewById(R.id.tvSongName);
+            tvArtistName = (TextView) v.findViewById(R.id.tvArtistName);
+            ivMusic = (ImageView) v.findViewById(R.id.ivMusic);
+
+            row = v;
         }
     }
 }

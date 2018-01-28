@@ -11,6 +11,14 @@
         android:layout_height="50dp"
         android:background="#e6065c">
 
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/searchViewMsgFragment"
+            android:background="#ffffff"
+            android:layout_toLeftOf="@id/ivSendContentMessageByImage"
+            android:layout_margin="5dp"></SearchView>
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -20,16 +28,14 @@
             android:id="@+id/ivSendContentMessageByImage"
             android:src="@drawable/add_msg" />
 
-
     </RelativeLayout>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
          android:layout_below="@+id/rlMessageContentTitle"
+        android:fastScrollEnabled="true"
+        android:fastScrollAlwaysVisible="true"
         android:id="@+id/lvContentMessage"></ListView>
-
-
-
 
 </RelativeLayout>

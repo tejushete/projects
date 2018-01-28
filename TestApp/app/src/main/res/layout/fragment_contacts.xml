@@ -5,19 +5,61 @@
     android:layout_height="match_parent"
     tools:context="com.example.teju.testapp.contactsFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#e6065c"
+        android:orientation="vertical">
+
+        <SearchView
+            android:id="@+id/svContactsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:background="#ffffff"></SearchView>
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/llContactViewTopButtons"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ee2d3e52"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:background="#e6065c"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/llDialerOption"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="Dialer"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="normal" />
+
+            <View
+                android:id="@+id/viDialerScreenSelected"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#ffffff"
+                android:visibility="gone"></View>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/llContactsOption"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
             android:orientation="vertical">
 
             <TextView
@@ -39,10 +81,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llCallLogsOption"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/llCallLogsOption"
-            android:layout_weight="0.5"
+            android:layout_weight="0.3"
             android:orientation="vertical">
 
             <TextView
@@ -65,19 +107,56 @@
 
     </LinearLayout>
 
-    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-        android:id="@+id/lst_contacts"
+    <LinearLayout
+        android:id="@+id/llContactsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/llContactViewTopButtons"
-        android:background="#2d3e52"
-        app:fastScrollAutoHide="true"
-        app:fastScrollAutoHideDelay="1500"
-        app:fastScrollPopupBackgroundSize="88dp"
-        app:fastScrollPopupBgColor="@color/colorAccent"
-        app:fastScrollPopupPosition="adjacent"
-        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-        app:fastScrollPopupTextSize="44sp"
-        app:fastScrollThumbColor="@color/colorAccent"
-        tools:listitem="@layout/contacts_details" />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:id="@+id/llCreateContactView"
+            android:background="#2d3e52">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/add"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Create Contact"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold"
+                android:textColor="#01f7d6"
+                />
+
+        </LinearLayout>
+
+        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+            android:id="@+id/lst_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#2d3e52"
+            app:fastScrollAutoHide="true"
+            app:fastScrollAutoHideDelay="1500"
+            app:fastScrollPopupBackgroundSize="88dp"
+            app:fastScrollPopupBgColor="@color/colorAccent"
+            app:fastScrollPopupPosition="adjacent"
+            app:fastScrollPopupTextColor="@android:color/primary_text_dark"
+            app:fastScrollPopupTextSize="44sp"
+            app:fastScrollThumbColor="@color/colorAccent"
+            tools:listitem="@layout/contacts_details" />
+    </LinearLayout>
+
 </RelativeLayout>

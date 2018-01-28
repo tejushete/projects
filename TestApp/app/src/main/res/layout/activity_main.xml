@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/fmMainView"
         android:background="#ffffff"
-        android:name="com.example.teju.testapp.contactsFragment"
+        class="com.example.teju.testapp.contactsFragment"
         android:layout_above="@+id/rlBottomTabs">
     </fragment>
 

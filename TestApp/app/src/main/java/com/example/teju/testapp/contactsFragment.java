@@ -43,7 +43,11 @@ public class contactsFragment extends Fragment {
     Cursor cursor;
     ArrayList<contacts_Items> mContactsList;
 
-    boolean isContactsScreenSelected = true;
+    private static final int DIALER_SCREEN = 0;
+    private static final int CONTACTS_SCREEN = 1;
+    private static final int CALL_LOGS_SCREEN = 2;
+
+    int screenSelection = CONTACTS_SCREEN;
 
     public contactsFragment() {
         // Required empty public constructor
@@ -68,7 +72,6 @@ public class contactsFragment extends Fragment {
     private void requestPermission() {
 
         int result = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS);
-
 
         if (result == PackageManager.PERMISSION_GRANTED) {
             getContacts();
@@ -186,7 +189,7 @@ public class contactsFragment extends Fragment {
         final View fr_view = inflater.inflate(layout.fragment_contacts, container, false);
         mContactsList = new ArrayList<contacts_Items>();
 
-        listView = fr_view.findViewById(lst_contacts);
+        listView = fr_view.findViewById(R.id.lst_contacts);
 
         if (getActivity() != null) {
             mAdapter = new contactsFragment.CustomListViewAdapter(this.getActivity());
@@ -197,29 +200,70 @@ public class contactsFragment extends Fragment {
 
         setRecyclerViewLayoutManager(listView);
 
-        LinearLayout llContactsOption, llCallLogsOption;
+        LinearLayout llContactsOption, llCallLogsOption, llDialerOption;
         llContactsOption = fr_view.findViewById(R.id.llContactsOption);
         llCallLogsOption = fr_view.findViewById(R.id.llCallLogsOption);
+        llDialerOption = fr_view.findViewById(R.id.llDialerOption);
+
+        llDialerOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (screenSelection == DIALER_SCREEN) return;
+
+                View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
+                View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
+                View viDialerScreenSelected = fr_view.findViewById(R.id.viDialerScreenSelected);
+
+                Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
+                Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
+
+                viContactsScreenSelected.setVisibility(View.GONE);
+                viCallLogsScreenSelected.setVisibility(View.GONE);
+                viDialerScreenSelected.setVisibility(View.VISIBLE);
+
+                if(screenSelection == CONTACTS_SCREEN) {
+                    viContactsScreenSelected.startAnimation(fadeOutAnim);
+                }
+
+                if(screenSelection == CALL_LOGS_SCREEN){
+                    viCallLogsScreenSelected.startAnimation(fadeOutAnim);
+                }
+
+                viDialerScreenSelected.startAnimation(fadeInAnim);
+
+                screenSelection = DIALER_SCREEN;
+            }
+        });
 
         llContactsOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (isContactsScreenSelected == true) return;
-                isContactsScreenSelected = true;
+                if (screenSelection == CONTACTS_SCREEN) return;
 
                 View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
                 View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
+                View viDialerScreenSelected = fr_view.findViewById(R.id.viDialerScreenSelected);
 
                 Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
                 Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
 
                 viContactsScreenSelected.setVisibility(View.VISIBLE);
                 viCallLogsScreenSelected.setVisibility(View.GONE);
+                viDialerScreenSelected.setVisibility(View.GONE);
 
                 viContactsScreenSelected.startAnimation(fadeInAnim);
-                viCallLogsScreenSelected.startAnimation(fadeOutAnim);
 
+                if(screenSelection == CALL_LOGS_SCREEN) {
+                    viCallLogsScreenSelected.startAnimation(fadeOutAnim);
+                }
+
+                if(screenSelection == DIALER_SCREEN) {
+                    viDialerScreenSelected.startAnimation(fadeOutAnim);
+                }
+
+                screenSelection = CONTACTS_SCREEN;
             }
         });
 
@@ -227,20 +271,29 @@ public class contactsFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (isContactsScreenSelected == false) return;
-                isContactsScreenSelected = false;
+                if (screenSelection == CALL_LOGS_SCREEN) return;
 
                 View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
                 View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
+                View viDialerScreenSelected = fr_view.findViewById(R.id.viDialerScreenSelected);
 
                 Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
                 Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
 
                 viContactsScreenSelected.setVisibility(View.GONE);
                 viCallLogsScreenSelected.setVisibility(View.VISIBLE);
+                viDialerScreenSelected.setVisibility(View.GONE);
 
-                viContactsScreenSelected.startAnimation(fadeOutAnim);
+                if(screenSelection == CONTACTS_SCREEN) {
+                    viContactsScreenSelected.startAnimation(fadeOutAnim);
+                }
                 viCallLogsScreenSelected.startAnimation(fadeInAnim);
+
+                if(screenSelection == DIALER_SCREEN) {
+                    viDialerScreenSelected.startAnimation(fadeOutAnim);
+                }
+
+                screenSelection = CALL_LOGS_SCREEN;
             }
         });
 
@@ -319,9 +372,10 @@ public class contactsFragment extends Fragment {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_firstName;
-        ImageView ivPhoto;
-        View row;
+
+        private TextView tv_firstName;
+        private ImageView ivPhoto;
+        private View row;
 
         public TextView getTvfirstName() {
             return tv_firstName;

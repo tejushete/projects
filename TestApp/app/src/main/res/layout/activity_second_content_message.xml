@@ -13,6 +13,14 @@
         android:background="#e6065c"
         android:id="@+id/rlTitleLayout">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:padding="5dp"
+            android:id="@+id/ivBackMessageActivity"
+            android:src="@drawable/back"/>
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

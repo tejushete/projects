@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,32 +7,47 @@
     android:orientation="vertical"
     tools:context="com.example.teju.testapp.PhoneListActivity">
 
+
     <FrameLayout
+        android:id="@+id/fmPhoneListHeader"
         android:layout_width="match_parent"
-        android:layout_height="220dp">
+        android:layout_height="220dp"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/tvProfilePic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:background="#2d3e52"
+            android:src="@drawable/phone_list_profile" />
+
+        <TextView
+            android:id="@+id/tvContactName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="PersonName"
+            android:textColor="#01f7d6"
+            android:textSize="35dp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
     <ImageView
-        android:layout_width="match_parent"
-        android:id="@+id/tvProfilePic"
-        android:src="@drawable/phone_list_profile"
-        android:background="#2d3e52"
-        android:layout_height="match_parent" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="PersonName"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/tvContactName"
-        android:textStyle="bold"
-        android:textColor="#01f7d6"
-        android:textSize="35dp"
-        android:layout_gravity="bottom"/>
-    </FrameLayout>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:padding="5dp"
+        android:id="@+id/ivBackPhoneListActivity"
+        android:src="@drawable/back"/>
+
     <ListView
         android:id="@+id/lvPhn-list"
         android:layout_width="wrap_content"
-        android:background="@drawable/boarder_listview"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fmPhoneListHeader"
+        android:background="@drawable/boarder_listview" />
 
-</LinearLayout>
+</RelativeLayout>
