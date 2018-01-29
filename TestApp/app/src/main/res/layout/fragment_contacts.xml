@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerInParent="true"
+            android:queryHint="Search Here"
             android:layout_margin="5dp"
             android:background="#ffffff"></SearchView>
 
@@ -35,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <TextView
@@ -158,5 +160,29 @@
             app:fastScrollThumbColor="@color/colorAccent"
             tools:listitem="@layout/contacts_details" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/llDialerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#2d3e52"
+        android:layout_below="@id/llContactViewTopButtons"
+        android:orientation="vertical">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/llCallLogsView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#2d3e52"
+        android:layout_below="@id/llContactViewTopButtons"
+        android:orientation="vertical">
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

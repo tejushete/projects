@@ -34,9 +34,9 @@
     <RelativeLayout
         android:id="@+id/vwMusicButtons"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
+        android:layout_height="95dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:background="#88000000"
         android:visibility="visible">
 
         <RelativeLayout
@@ -99,6 +99,7 @@
                 android:clickable="true"
                 android:src="@drawable/video_pause"
                 android:visibility="visible" />
+
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

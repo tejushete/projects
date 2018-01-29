@@ -143,8 +143,10 @@ public class VideoPlayerActivity extends Activity {
                     vvView.seekTo(length);
                     vvView.start();
                     isPaused = false;
+                    runnable.run();
                 }
 
+                seekBar.setEnabled(true);
             }
         });
 
@@ -154,7 +156,12 @@ public class VideoPlayerActivity extends Activity {
                 ivPause.setVisibility(View.INVISIBLE);
                 ivPlay.setVisibility(View.VISIBLE);
                 vvView.pause();
+                if(seekHandler != null){
+                    seekHandler.removeCallbacks(runnable);
+                }
                 isPaused = true;
+
+                seekBar.setEnabled(false);
             }
         });
 
@@ -179,7 +186,7 @@ public class VideoPlayerActivity extends Activity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 int progress = seekBar.getProgress();
-                if (vvView != null && vvView.isPlaying()) {
+                if (vvView != null && isPaused == false) {
                     vvView.seekTo(progress);
                 }
             }

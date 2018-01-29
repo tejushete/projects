@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +44,11 @@ public class contactsFragment extends Fragment {
     CustomListViewAdapter mAdapter;
     Cursor cursor;
     ArrayList<contacts_Items> mContactsList;
+    ArrayList<String>mSearchArrayList;
+
+    RelativeLayout llDialerView;
+    LinearLayout llContactsView;
+    RelativeLayout llCallLogsView;
 
     private static final int DIALER_SCREEN = 0;
     private static final int CONTACTS_SCREEN = 1;
@@ -166,6 +173,15 @@ public class contactsFragment extends Fragment {
         }).start();
     }
 
+    /*
+    private void filterContactList(String  query){
+        mSearchArrayList.clear();
+        String keyword = query.toLowerCase();
+        for(contacts_Items mString : mContactsList
+
+        }
+    }*/
+
     public void setRecyclerViewLayoutManager(RecyclerView recyclerView) {
         int scrollPosition = 0;
 
@@ -188,6 +204,7 @@ public class contactsFragment extends Fragment {
         // Inflate the layout for this fragment
         final View fr_view = inflater.inflate(layout.fragment_contacts, container, false);
         mContactsList = new ArrayList<contacts_Items>();
+        mSearchArrayList=new ArrayList<String>();
 
         listView = fr_view.findViewById(R.id.lst_contacts);
 
@@ -195,6 +212,10 @@ public class contactsFragment extends Fragment {
             mAdapter = new contactsFragment.CustomListViewAdapter(this.getActivity());
             listView.setAdapter(mAdapter);
         }
+
+        llContactsView = fr_view.findViewById(id.llContactsView);
+        llCallLogsView = fr_view.findViewById(id.llCallLogsView);
+        llDialerView = fr_view.findViewById(id.llDialerView);
 
         requestPermission();
 
@@ -232,6 +253,10 @@ public class contactsFragment extends Fragment {
 
                 viDialerScreenSelected.startAnimation(fadeInAnim);
 
+                llContactsView.setVisibility(View.GONE);
+                llCallLogsView.setVisibility(View.GONE);
+                llDialerView.setVisibility(View.VISIBLE);
+
                 screenSelection = DIALER_SCREEN;
             }
         });
@@ -263,6 +288,10 @@ public class contactsFragment extends Fragment {
                     viDialerScreenSelected.startAnimation(fadeOutAnim);
                 }
 
+                llContactsView.setVisibility(View.VISIBLE);
+                llCallLogsView.setVisibility(View.GONE);
+                llDialerView.setVisibility(View.GONE);
+
                 screenSelection = CONTACTS_SCREEN;
             }
         });
@@ -292,6 +321,10 @@ public class contactsFragment extends Fragment {
                 if(screenSelection == DIALER_SCREEN) {
                     viDialerScreenSelected.startAnimation(fadeOutAnim);
                 }
+
+                llContactsView.setVisibility(View.GONE);
+                llCallLogsView.setVisibility(View.VISIBLE);
+                llDialerView.setVisibility(View.GONE);
 
                 screenSelection = CALL_LOGS_SCREEN;
             }
