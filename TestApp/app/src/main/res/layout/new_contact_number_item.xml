@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="8dp"
+            android:layout_alignParentRight="true"
+            android:id="@+id/ivAddNumber"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/add_number" />
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/ivRemoveNumber"
+            android:layout_alignParentLeft="true"
+            android:visibility="visible"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/remove_number" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/ivRemoveNumber"
+            android:layout_toLeftOf="@id/ivAddNumber"
+            android:hint="Phone"
+            android:text="" />
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

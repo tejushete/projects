@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.teju.testapp.AddNewContact">
+
+    <RelativeLayout
+        android:id="@+id/rlAddNewContactProgressView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/custom_progress_bar" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rlAddContactParent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rlTitleBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#2d3e52">
+
+            <ImageView
+                android:id="@+id/ivBackArrow"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/color_back_arrow" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="35dp"
+                android:layout_toRightOf="@+id/ivBackArrow"
+                android:text="Add New Contact"
+                android:textColor="#01f7d6"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/btnTickSave"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/add_contact_tick" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlAddContactMainView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlTitleBar">
+
+            <ImageView
+                android:id="@+id/ivAddContactProfile"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:background="#2d3e63"
+                android:src="@drawable/phone_list_profile" />
+
+            <ImageView
+                android:id="@+id/ivCameraImg"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="130dp"
+                android:src="@drawable/add_new_profile_pic" />
+
+            <EditText
+                android:id="@+id/etContactName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_below="@id/ivCameraImg"
+                android:background="#e51f2e"
+                android:hint="Contact Name"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+
+            <ListView
+                android:id="@+id/lvNumbersListInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/etContactName"
+                android:dividerHeight="0dp"></ListView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

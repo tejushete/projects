@@ -71,25 +71,28 @@ public class PhoneListActivity extends Activity {
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                 new String[]{contact_id}, null);
 
-        while (cursor.moveToNext()) {
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            do {
 
-            String no = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            no = no.replaceAll("\\s+", "");
+                String no = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                no = no.replaceAll("\\s+", "");
 
-            for (int i = 0; i < mPhoneNumberList.size(); i++) {
-                String li = mPhoneNumberList.get(i);
-                if (no.equals(li)) {
-                    mPhoneNumberList.remove(li);
+                for (int i = 0; i < mPhoneNumberList.size(); i++) {
+                    String li = mPhoneNumberList.get(i);
+                    if (no.equals(li)) {
+                        mPhoneNumberList.remove(li);
+                    }
+
                 }
 
-            }
+                mPhoneNumberList.add(0, no);
+                adapter.notifyDataSetChanged();
 
-            mPhoneNumberList.add(0, no);
-            adapter.notifyDataSetChanged();
+            } while (cursor.moveToNext());
+
         }
         cursor.close();
-
-
     }
 
 

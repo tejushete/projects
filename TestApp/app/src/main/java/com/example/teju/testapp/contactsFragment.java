@@ -10,28 +10,35 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.example.teju.testapp.R.*;
 import static com.example.teju.testapp.R.id.*;
@@ -43,16 +50,17 @@ public class contactsFragment extends Fragment {
     FastScrollRecyclerView listView;
     CustomListViewAdapter mAdapter;
     Cursor cursor;
+    ListView lv;
     ArrayList<contacts_Items> mContactsList;
-    ArrayList<String>mSearchArrayList;
+    ArrayList<contacts_Items> mSearchArrayList;
+    CallListAdapter listAdapter;
 
-    RelativeLayout llDialerView;
     LinearLayout llContactsView;
-    RelativeLayout llCallLogsView;
+    LinearLayout llCallLogsView;
 
-    private static final int DIALER_SCREEN = 0;
-    private static final int CONTACTS_SCREEN = 1;
-    private static final int CALL_LOGS_SCREEN = 2;
+
+    private static final int CONTACTS_SCREEN = 0;
+    private static final int CALL_LOGS_SCREEN = 1;
 
     int screenSelection = CONTACTS_SCREEN;
 
@@ -66,14 +74,75 @@ public class contactsFragment extends Fragment {
         for (int i = 0; i < grantResults.length; i++) {
             String permission = permissions[i];
 
-            if (permission.equals(Manifest.permission.READ_CONTACTS)) {
+            if (permission.equals(new String[]{Manifest.permission.READ_CONTACTS})) {
                 if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    getContacts();
+                    getCallLogs();
                 } else {
                     requestPermission();
                 }
             }
+
+            if (permission.equals(new String[]{Manifest.permission.READ_CALL_LOG})) {
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    getCallLogs();
+                } else {
+                    requestPermission();
+                }
+            }
+
         }
+    }
+
+    private void getCallLogs() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Uri callLogUri = Uri.parse("content://call_log/calls");
+                Cursor cursor = getActivity().getContentResolver().query(callLogUri,
+                        null,
+                        null,
+                        null,
+                        CallLog.Calls.DATE + " DESC");
+
+                int num = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+                int name = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+                int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
+                int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
+                int date = cursor.getColumnIndex(CallLog.Calls.DATE);
+                if (cursor == null) return;
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    do {
+                        String phnNum = cursor.getString(num);
+                        String Name = cursor.getString(name);
+                        String callType = cursor.getString(type);
+                        String callDate = cursor.getString(date);
+                        String callDuration = cursor.getString(duration);
+
+                        final CallLogItem item = new CallLogItem();
+                        item.setName(Name);
+                        item.setNumber(phnNum);
+                        item.setCallType(callType);
+                        item.setDate(callDate);
+                        item.setCallDuration(callDuration);
+
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    listAdapter.mCallLogList.add(item);
+                                    listAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+
+            }
+        }).start();
+
     }
 
     private void requestPermission() {
@@ -83,9 +152,24 @@ public class contactsFragment extends Fragment {
         if (result == PackageManager.PERMISSION_GRANTED) {
             getContacts();
         } else {
-
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.READ_CONTACTS},
+                    0);
+        }
+
+        result = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            getCallLogs();
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_CALL_LOG},
+                    0);
+        }
+
+        result = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_CONTACTS);
+        if (result != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.WRITE_CONTACTS},
                     0);
         }
     }
@@ -139,11 +223,10 @@ public class contactsFragment extends Fragment {
 
                 if (cursor == null) return;
 
-                Log.d("<>", cursor.getCount() + "");
+//                Log.d("<>", cursor.getCount() + "");
                 if (cursor.getCount() > 0) {
                     cursor.moveToFirst();
                     do {
-
                         String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
                         String contact_id = cursor.getString(cursor.getColumnIndex(ID));
                         Uri picuri = getPhotoUri(contact_id);
@@ -153,9 +236,6 @@ public class contactsFragment extends Fragment {
                         contacts_items.setFirstName(name);
                         contacts_items.setContact_id(contact_id);
 
-                        Log.d("<><><>", "name " + contacts_items.getFirstName());
-
-                        Log.d("<<<>>>", picuri + "");
                         contacts_items.setImg(picuri);
 
                         if (getActivity() != null) {
@@ -163,24 +243,17 @@ public class contactsFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     mContactsList.add(contacts_items);
-                                    mAdapter.notifyDataSetChanged();
+                                    mSearchArrayList.add(contacts_items);
+                                    mAdapter.notifyItemChanged(mContactsList.size()-1);
                                 }
                             });
                         }
                     } while (cursor.moveToNext());
                 }
+                cursor.close();
             }
         }).start();
     }
-
-    /*
-    private void filterContactList(String  query){
-        mSearchArrayList.clear();
-        String keyword = query.toLowerCase();
-        for(contacts_Items mString : mContactsList
-
-        }
-    }*/
 
     public void setRecyclerViewLayoutManager(RecyclerView recyclerView) {
         int scrollPosition = 0;
@@ -204,29 +277,88 @@ public class contactsFragment extends Fragment {
         // Inflate the layout for this fragment
         final View fr_view = inflater.inflate(layout.fragment_contacts, container, false);
         mContactsList = new ArrayList<contacts_Items>();
-        mSearchArrayList=new ArrayList<String>();
+        mSearchArrayList = new ArrayList<contacts_Items>();
 
         listView = fr_view.findViewById(R.id.lst_contacts);
+
+        ItemClickSupport.addTo(listView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                    final contacts_Items items = mSearchArrayList.get(position);
+                    if (getActivity() != null) {
+                        Intent intent = new Intent(getActivity(), PhoneListActivity.class);
+                        intent.putExtra("ContactId", items.getContact_id());
+                        intent.putExtra("ContactName", items.getFirstName());
+                        intent.putExtra("Image", items.getImg().toString());
+
+                        startActivity(intent);
+                    }
+            }
+        });
+
+        lv = fr_view.findViewById(id.lvCallLogs);
+        SearchView searchView = (SearchView) fr_view.findViewById(R.id.svContactsFragment);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchArrayList.clear();
+                Log.d(contactsFragment.class.getSimpleName(), "onQueryTextChange");
+                for (int i = 0; i < mContactsList.size(); i++) {
+
+                    contacts_Items item = mContactsList.get(i);
+                    Log.d(contactsFragment.class.getSimpleName(), "item First Name: " + item.getFirstName() +
+                            " query: " + newText + " " +
+                            "item Last Name: " + item.getLastName());
+
+                    if (newText.isEmpty() == true
+                            || (item.getFirstName() != null &&
+                            utility.containsIgnoreCase(item.getFirstName(), newText) == true)
+                            || (item.getLastName() != null &&
+                            utility.containsIgnoreCase(item.getFirstName(), newText) == true
+                    )) {
+                        mSearchArrayList.add(item);
+                    }
+                }
+
+                mAdapter.notifyDataSetChanged();
+
+                return false;
+            }
+        });
 
         if (getActivity() != null) {
             mAdapter = new contactsFragment.CustomListViewAdapter(this.getActivity());
             listView.setAdapter(mAdapter);
         }
 
+        if (getActivity() != null) {
+            listAdapter = new CallListAdapter(this.getActivity());
+            listAdapter.mCallLogList = new ArrayList<CallLogItem>();
+            lv.setAdapter(listAdapter);
+        }
+
         llContactsView = fr_view.findViewById(id.llContactsView);
         llCallLogsView = fr_view.findViewById(id.llCallLogsView);
-        llDialerView = fr_view.findViewById(id.llDialerView);
 
         requestPermission();
 
-        setRecyclerViewLayoutManager(listView);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 1, LinearLayoutManager.VERTICAL, false);
+        listView.setLayoutManager(manager);
+        listView.setItemAnimator(null);
+        listView.setAnimation(null);
+        listView.setLayoutAnimation(null);
 
         LinearLayout llContactsOption, llCallLogsOption, llDialerOption;
         llContactsOption = fr_view.findViewById(R.id.llContactsOption);
         llCallLogsOption = fr_view.findViewById(R.id.llCallLogsOption);
-        llDialerOption = fr_view.findViewById(R.id.llDialerOption);
+        //  llDialerOption = fr_view.findViewById(R.id.llDialerOption);
 
-        llDialerOption.setOnClickListener(new View.OnClickListener() {
+      /*  llDialerOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -260,7 +392,7 @@ public class contactsFragment extends Fragment {
                 screenSelection = DIALER_SCREEN;
             }
         });
-
+*/
         llContactsOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -269,28 +401,25 @@ public class contactsFragment extends Fragment {
 
                 View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
                 View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
-                View viDialerScreenSelected = fr_view.findViewById(R.id.viDialerScreenSelected);
+                LinearLayout llContactsView = fr_view.findViewById(R.id.llContactsView);
+                LinearLayout llCallLogsView = fr_view.findViewById(R.id.llCallLogsView);
 
                 Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
                 Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
 
                 viContactsScreenSelected.setVisibility(View.VISIBLE);
                 viCallLogsScreenSelected.setVisibility(View.GONE);
-                viDialerScreenSelected.setVisibility(View.GONE);
+                llContactsView.setVisibility(View.VISIBLE);
+                llCallLogsView.setVisibility(View.GONE);
 
                 viContactsScreenSelected.startAnimation(fadeInAnim);
 
-                if(screenSelection == CALL_LOGS_SCREEN) {
+                if (screenSelection == CALL_LOGS_SCREEN) {
                     viCallLogsScreenSelected.startAnimation(fadeOutAnim);
-                }
-
-                if(screenSelection == DIALER_SCREEN) {
-                    viDialerScreenSelected.startAnimation(fadeOutAnim);
                 }
 
                 llContactsView.setVisibility(View.VISIBLE);
                 llCallLogsView.setVisibility(View.GONE);
-                llDialerView.setVisibility(View.GONE);
 
                 screenSelection = CONTACTS_SCREEN;
             }
@@ -304,29 +433,36 @@ public class contactsFragment extends Fragment {
 
                 View viContactsScreenSelected = fr_view.findViewById(R.id.viContactsScreenSelected);
                 View viCallLogsScreenSelected = fr_view.findViewById(R.id.viCallLogsScreenSelected);
-                View viDialerScreenSelected = fr_view.findViewById(R.id.viDialerScreenSelected);
+                llContactsView = fr_view.findViewById(R.id.llContactsView);
+                llCallLogsView = fr_view.findViewById(R.id.llCallLogsView);
+
 
                 Animation fadeInAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_in);
                 Animation fadeOutAnim = AnimationUtils.loadAnimation(getActivity(), anim.fade_out);
 
                 viContactsScreenSelected.setVisibility(View.GONE);
                 viCallLogsScreenSelected.setVisibility(View.VISIBLE);
-                viDialerScreenSelected.setVisibility(View.GONE);
 
-                if(screenSelection == CONTACTS_SCREEN) {
+                if (screenSelection == CONTACTS_SCREEN) {
                     viContactsScreenSelected.startAnimation(fadeOutAnim);
                 }
                 viCallLogsScreenSelected.startAnimation(fadeInAnim);
 
-                if(screenSelection == DIALER_SCREEN) {
-                    viDialerScreenSelected.startAnimation(fadeOutAnim);
-                }
-
                 llContactsView.setVisibility(View.GONE);
                 llCallLogsView.setVisibility(View.VISIBLE);
-                llDialerView.setVisibility(View.GONE);
+                llContactsView.setVisibility(View.GONE);
+                llCallLogsView.setVisibility(View.VISIBLE);
 
                 screenSelection = CALL_LOGS_SCREEN;
+            }
+        });
+
+        LinearLayout llCreateContactView = (LinearLayout)fr_view.findViewById(R.id.llCreateContactView);
+        llCreateContactView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),AddNewContact.class);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -344,33 +480,18 @@ public class contactsFragment extends Fragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup v, int viewType) {
-
             View row = LayoutInflater.from(v.getContext()).inflate(R.layout.contacts_details, v, false);
-
-            Log.d("HOLDER", "onCreateViewHolder");
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = (int) v.getTag();
-                    Log.d("<>HOLDER", position + "");
-                    final contacts_Items items = mContactsList.get(position);
-                    if (getActivity() != null) {
-                        Intent intent = new Intent(getActivity(), PhoneListActivity.class);
-                        intent.putExtra("ContactId", items.getContact_id());
-                        intent.putExtra("ContactName", items.getFirstName());
-                        intent.putExtra("Image", items.getImg().toString());
-
-                        startActivity(intent);
-                    }
-                }
-            });
-
             return new MyViewHolder(row);
         }
 
         @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            final contacts_Items items = mContactsList.get(position);
+            final contacts_Items items = mSearchArrayList.get(position);
 
             ((MyViewHolder) holder).getTvfirstName().setText(items.getFirstName());
 
@@ -386,9 +507,8 @@ public class contactsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mContactsList.size();
+            return mSearchArrayList.size();
         }
-
 
         @Override
         public int getViewTypeHeight(RecyclerView recyclerView, int viewType) {
@@ -424,12 +544,56 @@ public class contactsFragment extends Fragment {
 
         public MyViewHolder(View v) {
             super(v);
-            // Define click listener for the ViewHolder's View.
-
             tv_firstName = (TextView) v.findViewById(R.id.tv_firstName);
             ivPhoto = (ImageView) v.findViewById(iv_photo);
-
             row = v;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d(contactsFragment.class.getSimpleName(), "onActivityResult, requestCode:"
+        +requestCode+", resultCode:"+resultCode);
+
+        if(requestCode == 0 && resultCode == -1){
+            contacts_Items item = new contacts_Items();
+            String contactName = data.getStringExtra("ContactName");
+            int contactId = data.getIntExtra("ContactId", 0);
+            String contactURI = data.getStringExtra("ContactURI");
+
+            item.setFirstName(contactName);
+            item.setContact_id(contactId+"");
+            item.setImg(Uri.parse(contactURI));
+            Log.d(contactsFragment.class.getSimpleName(), "contactName: "
+                    +contactName+", contactId:"+contactId+", contactURI:"+contactURI);
+
+            mContactsList.add(item);
+            mSearchArrayList.add(item);
+
+            if(getActivity()!= null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Collections.sort(mContactsList, new Comparator<contacts_Items>() {
+                            @Override
+                            public int compare(contacts_Items lhs, contacts_Items rhs) {
+                                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                                int result = 0;
+                                result = lhs.getFirstName().compareToIgnoreCase(rhs.getFirstName());
+                                return result;
+                            }
+                        });
+
+                        mSearchArrayList = mContactsList;
+
+                        mAdapter.notifyDataSetChanged();
+
+                    }
+                });}
+        }
+
     }
 }

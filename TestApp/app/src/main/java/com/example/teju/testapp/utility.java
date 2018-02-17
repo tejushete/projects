@@ -10,6 +10,10 @@ import android.os.Build;
 import android.provider.Telephony;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import static android.provider.Telephony.BaseMmsColumns.STATUS;
 import static android.provider.Telephony.BaseMmsColumns.SUBJECT;
 import static android.provider.Telephony.BaseMmsColumns.THREAD_ID;
@@ -50,6 +54,30 @@ public class utility {
         return resolver.insert(uri, values);
     }
 
+    static public boolean validatePhoneNumber(String number){
+
+        String regexStr = "^(1\\-)?[0-9]{3}\\-?[0-9]{3}\\-?[0-9]{4}$";
+
+        if(number.matches(regexStr) == true){
+            return true;
+        }
+
+        return false;
+    }
+
+    public static byte[] getBytes(Uri uri, Context context) throws IOException {
+        InputStream iStream =   context.getContentResolver().openInputStream(uri);
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len = 0;
+        while ((len = iStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
     public void updateMsgReadStatus(Context context, String smsId, UserTextMessage msg) {
 
         Uri uri = Uri.parse("content://sms/inbox");
@@ -59,9 +87,17 @@ public class utility {
         context.getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + smsId, null);
     }
 
+    public static boolean containsIgnoreCase(String str, String searchStr)     {
+        if(str == null || searchStr == null) return false;
 
+        final int length = searchStr.length();
+        if (length == 0)
+            return true;
 
-
-
-
+        for (int i = str.length() - length; i >= 0; i--) {
+            if (str.regionMatches(true, i, searchStr, 0, length))
+                return true;
+        }
+        return false;
+    }
 }

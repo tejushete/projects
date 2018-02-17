@@ -26,6 +26,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -43,6 +44,8 @@ public class ContentMessageFragment extends Fragment {
     ListView listView;
     ContentMessageAdapter adapter;
     ArrayList<UserTextMessage> mContentMessageList;
+    ArrayList<UserTextMessage> mSearchArrayList;
+
     int REQUEST_CODE_BUTTON_SEND_ACTIVITY = 1;
     boolean isMessageRead = false;
     HashMap<String, Integer[]> mMap;
@@ -164,6 +167,8 @@ public class ContentMessageFragment extends Fragment {
                                 @Override
                                 public void run() {
                                     mContentMessageList.add(userTextMessage);
+                                    mSearchArrayList.add(userTextMessage);
+
                                     adapter.notifyDataSetChanged();
                                 }
                             });
@@ -201,7 +206,7 @@ public class ContentMessageFragment extends Fragment {
         testAppSharedPreferences = TestAppSharedPreferences.getInstance(getContext());
         //mCompleteMessageList =new ArrayList<UserTextMessage>();
         mContentMessageList = new ArrayList<UserTextMessage>();
-
+        mSearchArrayList = new ArrayList<UserTextMessage>();
 
         listView = (ListView) view.findViewById(R.id.lvContentMessage);
         if (getActivity() != null) {
@@ -213,7 +218,7 @@ public class ContentMessageFragment extends Fragment {
             @TargetApi(Build.VERSION_CODES.KITKAT)
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                UserTextMessage userTextMessage = mContentMessageList.get(i);
+                UserTextMessage userTextMessage = mSearchArrayList.get(i);
                 userTextMessage.setReadStatus(true);
                 Integer[] array = mMap.get(userTextMessage.getNumber());
                 array[0] = 0;
@@ -222,6 +227,37 @@ public class ContentMessageFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), SecondContentMessageActivity.class);
                 intent.putExtra("contentNumber", userTextMessage.getNumber());
                 startActivityForResult(intent, 0);
+            }
+        });
+        SearchView searchView = (SearchView)view.findViewById(R.id.searchViewMsgFragment);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mSearchArrayList.clear();
+                Log.d(ContentMessageFragment.class.getSimpleName(), "onQueryTextChange");
+                for (int i = 0; i < mContentMessageList.size(); i++) {
+
+                    UserTextMessage userTextMessage = mContentMessageList.get(i);
+                    Log.d(ContentMessageFragment.class.getSimpleName(), "query: "+newText+", Searching:"+userTextMessage.getNumber());
+
+                    if (newText.isEmpty() == true
+                            || (userTextMessage.getAddress()!= null &&
+                            utility.containsIgnoreCase(userTextMessage.getNumber(), newText) == true)
+
+                    ) {
+                        Log.d(ContentMessageFragment.class.getSimpleName(), "Found:"+userTextMessage.getNumber());
+                        mSearchArrayList.add(userTextMessage);
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
+                return false;
             }
         });
 
@@ -246,7 +282,7 @@ public class ContentMessageFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return mContentMessageList.size();
+            return mSearchArrayList.size();
         }
 
         @Override
@@ -262,7 +298,7 @@ public class ContentMessageFragment extends Fragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View list = view;
-            UserTextMessage item1 = mContentMessageList.get(i);
+            UserTextMessage item1 = mSearchArrayList.get(i);
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (list == null) {
                 list = inflater.inflate(R.layout.message_content, null);
@@ -277,7 +313,6 @@ public class ContentMessageFragment extends Fragment {
             tvContentMessageDateAndTime.setText(item1.getDate());
             TextView tvUnreadMessages = (TextView) list.findViewById(R.id.tvUnreadMessages);
             TextView tvContentMessageDraft = (TextView) list.findViewById(R.id.tvContentMessageDraft);
-
 
             Integer finalUnreadMsgValue[] = mMap.get(item1.getNumber());
 
@@ -298,10 +333,8 @@ public class ContentMessageFragment extends Fragment {
             } else {
                 tvContentMessageDraft.setVisibility(View.VISIBLE);
             }
-
             return list;
         }
-
     }
 
     @Override
@@ -314,13 +347,10 @@ public class ContentMessageFragment extends Fragment {
             String message = data.getStringExtra("message");
             String phoneNumber = data.getStringExtra("number");
 
-
-
             UserTextMessage userTextMessage = new UserTextMessage();
             userTextMessage.setNumber(phoneNumber);
             userTextMessage.setMessageBody(message);
             userTextMessage.setReadStatus(true);
-
 
             for (int i = 0; i < mContentMessageList.size(); i++) {
                 UserTextMessage lMsg = mContentMessageList.get(i);
@@ -366,5 +396,3 @@ public class ContentMessageFragment extends Fragment {
         }
     }
 }
-
-
