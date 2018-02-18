@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.teju.testapp.MusicFragment">
+    tools:context="com.example.teju.u_and_e.MusicFragment">
 
     <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         android:id="@+id/lvSong_list"
@@ -20,13 +20,12 @@
         app:fastScrollThumbColor="@color/colorAccent"
         tools:listitem="@layout/songs"
         android:layout_above="@+id/rlProgressBarView"
-
         />
 
     <RelativeLayout
         android:id="@+id/rlProgressBarView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:background="#ee2d3e52">
@@ -101,15 +100,15 @@
         <RelativeLayout
             android:id="@+id/rlCurrSongControlButtons"
             android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_height="45dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="3dp"
             android:layout_below="@id/rlCurrSongInfo">
 
             <ImageView
                 android:id="@+id/ivPlay"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
                 android:padding="2dp"
@@ -120,8 +119,8 @@
 
             <ImageView
                 android:id="@+id/ivPause"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:padding="2dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
@@ -130,11 +129,10 @@
                 android:src="@drawable/pause2"
                 android:visibility="gone" />
 
-
             <ImageView
                 android:id="@+id/ivPrev"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:padding="2dp"
                 android:layout_marginLeft="5dp"
@@ -146,8 +144,8 @@
 
             <ImageView
                 android:id="@+id/ivNext"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:padding="2dp"
@@ -159,8 +157,8 @@
 
             <ImageView
                 android:id="@+id/ivStop"
-                android:layout_width="23dp"
-                android:layout_height="23dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="2dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/ivNext"

@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.teju.testapp.MainActivity">
+    tools:context="com.example.teju.u_and_e.MainActivity">
 
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fmMainView"
         android:background="#ffffff"
-        class="com.example.teju.testapp.contactsFragment"
+        class="com.example.teju.u_and_e.contactsFragment"
         android:layout_above="@+id/rlBottomTabs">
     </fragment>
 

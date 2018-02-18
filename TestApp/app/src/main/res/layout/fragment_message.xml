@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.example.teju.testapp.MessageFragment">
+    tools:context="com.example.teju.u_and_e.MessageFragment">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

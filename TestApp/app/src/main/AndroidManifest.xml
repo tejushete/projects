@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.teju.testapp">
+    package="com.example.teju.u_and_e">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.teju.u_and_e.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
@@ -35,12 +35,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PhoneListActivity" />
+        <activity android:name="com.example.teju.u_and_e.PhoneListActivity" />
         <activity
-            android:name=".VideoPlayerActivity"
+            android:name="com.example.teju.u_and_e.VideoPlayerActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".SendMessageActivity"
+            android:name="com.example.teju.u_and_e.SendMessageActivity"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -55,7 +55,7 @@
                 <data android:scheme="mmsto" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReceiveSendMessageActivity">
+        <activity android:name="com.example.teju.u_and_e.ReceiveSendMessageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SENDTO" />
@@ -69,10 +69,10 @@
                 <data android:scheme="mmsto" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondContentMessageActivity" />
+        <activity android:name="com.example.teju.u_and_e.SecondContentMessageActivity" />
 
         <receiver
-            android:name=".MsgServiceRestartReceiver"
+            android:name="com.example.teju.u_and_e.MsgServiceRestartReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -80,7 +80,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".MMSBroadcastReceiver"
+            android:name="com.example.teju.u_and_e.MMSBroadcastReceiver"
             android:permission="android.permission.BROADCAST_WAP_PUSH">
             <intent-filter>
                 <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
@@ -89,7 +89,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".SMSBroadcastReceiver"
+            android:name="com.example.teju.u_and_e.SMSBroadcastReceiver"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
@@ -97,7 +97,7 @@
         </receiver>
 
         <service
-            android:name=".MyService"
+            android:name="com.example.teju.u_and_e.MyService"
             android:exported="true"
             android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
             <intent-filter>
@@ -113,9 +113,9 @@
         </service>
 
         <activity
-            android:name=".SendMessageContentByBtn"
+            android:name="com.example.teju.u_and_e.SendMessageContentByBtn"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".AddNewContact"
+        <activity android:name="com.example.teju.u_and_e.AddNewContact"
             android:windowSoftInputMode="adjustPan"></activity>
     </application>
 

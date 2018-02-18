@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.teju.testapp.AddNewContact">
+    tools:context="com.example.teju.u_and_e.AddNewContact">
 
     <RelativeLayout
         android:id="@+id/rlAddNewContactProgressView"
