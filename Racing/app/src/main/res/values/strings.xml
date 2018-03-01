@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Racing</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fb_sign_up_name">Sign up with Facebook</string>
+    <string name="google_sign_up_name">Sign up with Google +</string>
+    <string name="fb_app_id">584669408533266</string>
+</resources>
